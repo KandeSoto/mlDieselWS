@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="http://misc.base.sp4gl.spinvent.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://misc.base.sp4gl.spinvent.com" targetNamespace="http://misc.base.sp4gl.spinvent.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types />
+  <wsdl:message name="executeProcedureDeviceRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="device" type="xsd:string" />
+    <wsdl:part name="parameters" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="executeProcedureResponse">
+    <wsdl:part name="executeProcedureReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="executeProcedureDeviceResponse">
+    <wsdl:part name="executeProcedureDeviceReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="logonResponse">
+    <wsdl:part name="logonReturn" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="executeProcedureRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+    <wsdl:part name="parameters" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="logonRequest">
+    <wsdl:part name="username" type="xsd:string" />
+    <wsdl:part name="password" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="SP4GLws">
+    <wsdl:operation name="executeProcedure" parameterOrder="username password parameters">
+      <wsdl:input name="executeProcedureRequest" message="impl:executeProcedureRequest" />
+      <wsdl:output name="executeProcedureResponse" message="impl:executeProcedureResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="executeProcedureDevice" parameterOrder="username password device parameters">
+      <wsdl:input name="executeProcedureDeviceRequest" message="impl:executeProcedureDeviceRequest" />
+      <wsdl:output name="executeProcedureDeviceResponse" message="impl:executeProcedureDeviceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="logon" parameterOrder="username password">
+      <wsdl:input name="logonRequest" message="impl:logonRequest" />
+      <wsdl:output name="logonResponse" message="impl:logonResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SP4GLwsSoapBinding" type="impl:SP4GLws">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="executeProcedure">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="executeProcedureRequest">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="executeProcedureResponse">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeProcedureDevice">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="executeProcedureDeviceRequest">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="executeProcedureDeviceResponse">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logon">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="logonRequest">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="logonResponse">
+        <wsdlsoap:body use="encoded" namespace="http://misc.base.sp4gl.spinvent.com" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SP4GLwsService">
+    <wsdl:port name="SP4GLws" binding="impl:SP4GLwsSoapBinding">
+      <wsdlsoap:address location="http://201.159.140.77:8080/SP4GL/services/SP4GLws" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mlDieselWS", "mlDieselWS\mlDieselWS.csproj", "{8D27A026-1D2B-4F95-8FAB-82D8DE9EC897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debug", "Debug\Debug.csproj", "{6927371E-24B5-4E91-9AD5-8E3072D96771}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D27A026-1D2B-4F95-8FAB-82D8DE9EC897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D27A026-1D2B-4F95-8FAB-82D8DE9EC897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D27A026-1D2B-4F95-8FAB-82D8DE9EC897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D27A026-1D2B-4F95-8FAB-82D8DE9EC897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6927371E-24B5-4E91-9AD5-8E3072D96771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6927371E-24B5-4E91-9AD5-8E3072D96771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6927371E-24B5-4E91-9AD5-8E3072D96771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6927371E-24B5-4E91-9AD5-8E3072D96771}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20477993-A0F4-42BB-900C-AD18060BD39C}
+	EndGlobalSection
+EndGlobal

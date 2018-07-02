@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CombustibleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AutorizacionesEnergex">
+          <Key>
+            <PropertyRef Name="AutorizacionesEnergexId" />
+          </Key>
+          <Property Name="AutorizacionesEnergexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTxnEnquiryMaxLoad" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="fkIdMerchant" Type="varchar" MaxLength="50" />
+          <Property Name="group_member" Type="varchar" MaxLength="50" />
+          <Property Name="orden" Type="varchar" MaxLength="50" />
+          <Property Name="MaxLitres" Type="varchar" MaxLength="50" />
+          <Property Name="vehicle" Type="varchar" MaxLength="50" />
+          <Property Name="comment" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="AutorizacionesParcialesEnergex">
+          <Key>
+            <PropertyRef Name="AutorizacionesParcialesEnergexId" />
+          </Key>
+          <Property Name="AutorizacionesParcialesEnergexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTxnPurchaseCashCard" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="fkIdMerchant" Type="varchar" MaxLength="50" />
+          <Property Name="fkIdTerminal" Type="varchar" MaxLength="50" />
+          <Property Name="fkIdProduct" Type="varchar" MaxLength="50" />
+          <Property Name="Amount" Type="varchar" MaxLength="50" />
+          <Property Name="LicensePlate" Type="varchar" MaxLength="50" />
+          <Property Name="Litres" Type="varchar" MaxLength="50" />
+          <Property Name="Kms" Type="varchar" MaxLength="50" />
+          <Property Name="ProductUnitPrice" Type="varchar" MaxLength="50" />
+          <Property Name="AuthNum" Type="varchar" MaxLength="50" />
+          <Property Name="orden" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EmpleadoEnergex">
+          <Key>
+            <PropertyRef Name="EmpleadoEnergexId" />
+          </Key>
+          <Property Name="EmpleadoEnergexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumEmpleadoMexLog" Type="int" />
+          <Property Name="NumEmpleadoEnergex" Type="int" />
+          <Property Name="SolicitudDepositoSistemaId" Type="int" />
+          <Property Name="Traslado" Type="int" />
+          <Property Name="Transportador" Type="int" />
+        </EntityType>
+        <EntityType Name="LitrosCargados">
+          <Key>
+            <PropertyRef Name="LitrosCargadosId" />
+          </Key>
+          <Property Name="LitrosCargadosId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SolicitudDepositoId" Type="int" />
+          <Property Name="SolicitudDepositoTraficoId" Type="int" />
+          <Property Name="MovimientoExternoId" Type="int" />
+          <Property Name="FolioEnergex" Type="varchar" MaxLength="250" />
+          <Property Name="LitrosSolicitados" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LitrosCargados" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Estatus" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="SolicitudDepositoComplementoId" Type="int" />
+          <Property Name="NumeroEmpleadoEnergex" Type="int" />
+        </EntityType>
+        <EntityType Name="SolicitudDeposito">
+          <Key>
+            <PropertyRef Name="SolicitudDepositoId" />
+          </Key>
+          <Property Name="SolicitudDepositoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SolicitudDepositoSistemaId" Type="int" Nullable="false" />
+          <Property Name="ClaveCarga" Type="int" Nullable="false" />
+          <Property Name="KilometrosRuta" Type="int" Nullable="false" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreTerminal" Type="varchar" MaxLength="100" />
+          <Property Name="NumeroEmpleado" Type="int" />
+          <Property Name="NombreOperador" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CiudadOrigen" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="CiudadDestino" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CiudadRegreso" Type="varchar" MaxLength="35" />
+          <Property Name="NumeroEconomico" Type="varchar" MaxLength="40" />
+          <Property Name="DieselLitros" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="DieselReservaLitros" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="SolicitudDepositoStatusId" Type="int" Nullable="false" />
+          <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
+          <Property Name="FechaAprobacion" Type="datetime" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="IsTarjeta" Type="bit" Nullable="false" />
+          <Property Name="TipoTarjetaId" Type="int" />
+          <Property Name="IsManual" Type="bit" Nullable="false" />
+          <Property Name="FolioEnergex" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityContainer Name="CombustibleModelStoreContainer">
+          <EntitySet Name="AutorizacionesEnergex" EntityType="Self.AutorizacionesEnergex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutorizacionesParcialesEnergex" EntityType="Self.AutorizacionesParcialesEnergex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpleadoEnergex" EntityType="Self.EmpleadoEnergex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LitrosCargados" EntityType="Self.LitrosCargados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolicitudDeposito" EntityType="Self.SolicitudDeposito" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CombustibleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AutorizacionesEnergex">
+          <Key>
+            <PropertyRef Name="AutorizacionesEnergexId" />
+          </Key>
+          <Property Name="AutorizacionesEnergexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTxnEnquiryMaxLoad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="fkIdMerchant" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="group_member" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orden" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaxLitres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vehicle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="comment" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EmpleadoEnergex">
+          <Key>
+            <PropertyRef Name="EmpleadoEnergexId" />
+          </Key>
+          <Property Name="EmpleadoEnergexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumEmpleadoMexLog" Type="Int32" />
+          <Property Name="NumEmpleadoEnergex" Type="Int32" />
+          <Property Name="SolicitudDepositoSistemaId" Type="Int32" />
+          <Property Name="Traslado" Type="Int32" />
+          <Property Name="Transportador" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="CombustibleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AutorizacionesEnergex" EntityType="Self.AutorizacionesEnergex" />
+          <EntitySet Name="EmpleadoEnergex" EntityType="Self.EmpleadoEnergex" />
+          <EntitySet Name="SolicitudDeposito" EntityType="CombustibleModel.SolicitudDeposito" />
+          <EntitySet Name="AutorizacionesParcialesEnergex" EntityType="CombustibleModel.AutorizacionesParcialesEnergex" />
+          <EntitySet Name="LitrosCargados" EntityType="CombustibleModel.LitrosCargados" />
+        </EntityContainer>
+        <EntityType Name="SolicitudDeposito">
+          <Key>
+            <PropertyRef Name="SolicitudDepositoId" />
+          </Key>
+          <Property Name="SolicitudDepositoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SolicitudDepositoSistemaId" Type="Int32" Nullable="false" />
+          <Property Name="ClaveCarga" Type="Int32" Nullable="false" />
+          <Property Name="KilometrosRuta" Type="Int32" Nullable="false" />
+          <Property Name="NombreCliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreTerminal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroEmpleado" Type="Int32" />
+          <Property Name="NombreOperador" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CiudadOrigen" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="CiudadDestino" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CiudadRegreso" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroEconomico" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DieselLitros" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="DieselReservaLitros" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="SolicitudDepositoStatusId" Type="Int32" Nullable="false" />
+          <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="IsTarjeta" Type="Boolean" Nullable="false" />
+          <Property Name="TipoTarjetaId" Type="Int32" />
+          <Property Name="IsManual" Type="Boolean" Nullable="false" />
+          <Property Name="FolioEnergex" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AutorizacionesParcialesEnergex">
+          <Key>
+            <PropertyRef Name="AutorizacionesParcialesEnergexId" />
+          </Key>
+          <Property Name="AutorizacionesParcialesEnergexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTxnPurchaseCashCard" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="fkIdMerchant" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkIdTerminal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkIdProduct" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LicensePlate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Litres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Kms" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductUnitPrice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AuthNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orden" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LitrosCargados">
+          <Key>
+            <PropertyRef Name="LitrosCargadosId" />
+          </Key>
+          <Property Name="LitrosCargadosId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SolicitudDepositoId" Type="Int32" />
+          <Property Name="SolicitudDepositoTraficoId" Type="Int32" />
+          <Property Name="MovimientoExternoId" Type="Int32" />
+          <Property Name="FolioEnergex" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LitrosSolicitados" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LitrosCargados1" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Estatus" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="SolicitudDepositoComplementoId" Type="Int32" />
+          <Property Name="NumeroEmpleadoEnergex" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CombustibleModelStoreContainer" CdmEntityContainer="CombustibleEntities">
+          <EntitySetMapping Name="AutorizacionesEnergex">
+            <EntityTypeMapping TypeName="CombustibleModel.AutorizacionesEnergex">
+              <MappingFragment StoreEntitySet="AutorizacionesEnergex">
+                <ScalarProperty Name="AutorizacionesEnergexId" ColumnName="AutorizacionesEnergexId" />
+                <ScalarProperty Name="idTxnEnquiryMaxLoad" ColumnName="idTxnEnquiryMaxLoad" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="fkIdMerchant" ColumnName="fkIdMerchant" />
+                <ScalarProperty Name="group_member" ColumnName="group_member" />
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="MaxLitres" ColumnName="MaxLitres" />
+                <ScalarProperty Name="vehicle" ColumnName="vehicle" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpleadoEnergex">
+            <EntityTypeMapping TypeName="CombustibleModel.EmpleadoEnergex">
+              <MappingFragment StoreEntitySet="EmpleadoEnergex">
+                <ScalarProperty Name="Transportador" ColumnName="Transportador" />
+                <ScalarProperty Name="Traslado" ColumnName="Traslado" />
+                <ScalarProperty Name="EmpleadoEnergexId" ColumnName="EmpleadoEnergexId" />
+                <ScalarProperty Name="NumEmpleadoMexLog" ColumnName="NumEmpleadoMexLog" />
+                <ScalarProperty Name="NumEmpleadoEnergex" ColumnName="NumEmpleadoEnergex" />
+                <ScalarProperty Name="SolicitudDepositoSistemaId" ColumnName="SolicitudDepositoSistemaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolicitudDeposito">
+            <EntityTypeMapping TypeName="CombustibleModel.SolicitudDeposito">
+              <MappingFragment StoreEntitySet="SolicitudDeposito">
+                <ScalarProperty Name="FolioEnergex" ColumnName="FolioEnergex" />
+                <ScalarProperty Name="IsManual" ColumnName="IsManual" />
+                <ScalarProperty Name="TipoTarjetaId" ColumnName="TipoTarjetaId" />
+                <ScalarProperty Name="IsTarjeta" ColumnName="IsTarjeta" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="SolicitudDepositoStatusId" ColumnName="SolicitudDepositoStatusId" />
+                <ScalarProperty Name="DieselReservaLitros" ColumnName="DieselReservaLitros" />
+                <ScalarProperty Name="DieselLitros" ColumnName="DieselLitros" />
+                <ScalarProperty Name="NumeroEconomico" ColumnName="NumeroEconomico" />
+                <ScalarProperty Name="CiudadRegreso" ColumnName="CiudadRegreso" />
+                <ScalarProperty Name="CiudadDestino" ColumnName="CiudadDestino" />
+                <ScalarProperty Name="CiudadOrigen" ColumnName="CiudadOrigen" />
+                <ScalarProperty Name="NombreOperador" ColumnName="NombreOperador" />
+                <ScalarProperty Name="NumeroEmpleado" ColumnName="NumeroEmpleado" />
+                <ScalarProperty Name="NombreTerminal" ColumnName="NombreTerminal" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="KilometrosRuta" ColumnName="KilometrosRuta" />
+                <ScalarProperty Name="ClaveCarga" ColumnName="ClaveCarga" />
+                <ScalarProperty Name="SolicitudDepositoSistemaId" ColumnName="SolicitudDepositoSistemaId" />
+                <ScalarProperty Name="SolicitudDepositoId" ColumnName="SolicitudDepositoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutorizacionesParcialesEnergex">
+            <EntityTypeMapping TypeName="CombustibleModel.AutorizacionesParcialesEnergex">
+              <MappingFragment StoreEntitySet="AutorizacionesParcialesEnergex">
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="AuthNum" ColumnName="AuthNum" />
+                <ScalarProperty Name="ProductUnitPrice" ColumnName="ProductUnitPrice" />
+                <ScalarProperty Name="Kms" ColumnName="Kms" />
+                <ScalarProperty Name="Litres" ColumnName="Litres" />
+                <ScalarProperty Name="LicensePlate" ColumnName="LicensePlate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="fkIdProduct" ColumnName="fkIdProduct" />
+                <ScalarProperty Name="fkIdTerminal" ColumnName="fkIdTerminal" />
+                <ScalarProperty Name="fkIdMerchant" ColumnName="fkIdMerchant" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="idTxnPurchaseCashCard" ColumnName="idTxnPurchaseCashCard" />
+                <ScalarProperty Name="AutorizacionesParcialesEnergexId" ColumnName="AutorizacionesParcialesEnergexId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LitrosCargados">
+            <EntityTypeMapping TypeName="CombustibleModel.LitrosCargados">
+              <MappingFragment StoreEntitySet="LitrosCargados">
+                <ScalarProperty Name="NumeroEmpleadoEnergex" ColumnName="NumeroEmpleadoEnergex" />
+                <ScalarProperty Name="SolicitudDepositoComplementoId" ColumnName="SolicitudDepositoComplementoId" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="LitrosCargados1" ColumnName="LitrosCargados" />
+                <ScalarProperty Name="LitrosSolicitados" ColumnName="LitrosSolicitados" />
+                <ScalarProperty Name="FolioEnergex" ColumnName="FolioEnergex" />
+                <ScalarProperty Name="MovimientoExternoId" ColumnName="MovimientoExternoId" />
+                <ScalarProperty Name="SolicitudDepositoTraficoId" ColumnName="SolicitudDepositoTraficoId" />
+                <ScalarProperty Name="SolicitudDepositoId" ColumnName="SolicitudDepositoId" />
+                <ScalarProperty Name="LitrosCargadosId" ColumnName="LitrosCargadosId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
