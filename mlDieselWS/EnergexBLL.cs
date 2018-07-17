@@ -50,10 +50,10 @@ namespace mlDieselWS
                                 Folio = FolioGenerator(Folio);
                                 DateTime FechaVencimiento = DateTime.Now.AddDays(Configuration.ExpirationDays);
 
-                                string Comentario = Configuration.COMMENT + item.orden.Trim() + ".";
+                                string Comentario = Configuration.COMMENT + Folio + ".";
 
-                                SP4GLwsService Servicio = new SP4GLwsService();
-                                string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + Convert.ToString(NumEmpleadoEnergex) + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;"+item.fkIdProduct+";Comentario;" + Comentario + ";";
+                                SP4GLwsService Servicio = new SP4GLwsService();                                
+                                string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + Convert.ToString(NumEmpleadoEnergex) + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;"+item.fkIdProduct+";Comentario;" + Comentario + ";";                                
                                 var response = Servicio.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, request);
 
                                 if (response != string.Empty)
@@ -82,7 +82,13 @@ namespace mlDieselWS
 
                                         db.LitrosCargados.Add(Cargados);
                                         db.SaveChanges();
-                                        Result = StatusProcess.EnvioAutorizacion;
+
+                                        bool Cancelo = CancelationProcess(item.orden.Trim(), NumEmpleadoMexLog);
+
+                                        if (Cancelo)
+                                            Result = StatusProcess.EnvioAutorizacion;
+                                        else                                        
+                                            Result = StatusProcess.EnvioAutorizacionErrorCancelar;
                                     }
                                     else
                                     {
@@ -95,8 +101,7 @@ namespace mlDieselWS
                                 }
 
                             }
-
-                            LitrosCargados.FechaRegistro = DateTime.Now;
+                            
                             db.Entry(LitrosCargados).State = EntityState.Modified;
                             db.SaveChanges();
 
@@ -158,8 +163,7 @@ namespace mlDieselWS
                                 LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);                            
                             else
                                 throw new ArgumentException("El folio "+ LitrosCargados.FolioEnergex + " energex no es una autorizacion en su totalidad");
-
-                            LitrosCargados.FechaRegistro = DateTime.Now;                            
+                                                      
                             db.Entry(LitrosCargados).State = EntityState.Modified;
                             db.SaveChanges();
 
@@ -271,6 +275,30 @@ namespace mlDieselWS
             return Folio;
         }
 
+        private bool CancelationProcess(string Folio, int? NumEmpleadoMexLog)
+        {
+            bool Result = false;
+            SP4GLwsService Servicio = new SP4GLwsService();
+
+            string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;cancelacion_vale;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";Folio;" + Folio + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";";
+            var response = Servicio.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, request);
+
+            if (response != string.Empty)
+            {
+                var registro = response.Split(';');
+                int arrayIndex = 0;
+
+                if (registro[arrayIndex] == "0")                
+                    Result = true;                                                                                   
+            }
+            else
+            {
+                throw new ArgumentException("No fue posible cancelar la autorizacion");
+            }
+
+            return Result;
+        }
+
         public DateTime GetStarDate()
         {
             int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
@@ -284,5 +312,6 @@ namespace mlDieselWS
             else
                 return DateTime.Now;
         }
+
     }
 }

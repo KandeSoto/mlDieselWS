@@ -54,7 +54,7 @@ namespace mlDieselWS
             Process.Enabled = false;
             EventLog.WriteEntry("Inicia la ejecucion del proceso de autorizaciones energex.", EventLogEntryType.Information);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);            
             EventLog.WriteEntry("Se reinicia el proceso.", EventLogEntryType.Information);
             Process.Enabled = true;
@@ -258,6 +258,9 @@ namespace mlDieselWS
                     break;
                 case StatusProcess.Error:
                     EventLog.WriteEntry("Se encontro un error en el proceso de autorizaciones " + Estatus + ".", EventLogEntryType.Error);
+                    break;
+                case StatusProcess.EnvioAutorizacionErrorCancelar:
+                    EventLog.WriteEntry("Se encontro un error en el proceso de cancelacion cuando se intento mandar una autorizacion " + Estatus + ".", EventLogEntryType.Error);
                     break;
             }
         }
