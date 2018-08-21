@@ -44,16 +44,16 @@ namespace mlDieselWS
                             else
                             {                                
                                 int? NumEmpleadoMexLog = db.EmpleadoEnergex.Where(w => w.NumEmpleadoEnergex == LitrosCargados.NumeroEmpleadoEnergex).Select(s => s.NumEmpleadoMexLog).FirstOrDefault();
-                                int? NumEmpleadoEnergex = LitrosCargados.NumeroEmpleadoEnergex;
+                                string NumEmpleadoEnergex = LitrosCargados.NumeroEmpleadoEnergex;
                                 LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);                                
-                                string Folio = db.LitrosCargados.OrderByDescending(o => o.LitrosCargadosId).Select(s => s.FolioEnergex).Take(1).FirstOrDefault();
+                                string Folio = db.LitrosCargados.OrderByDescending(o => o.FolioEnergex).Select(s => s.FolioEnergex).Take(1).FirstOrDefault();
                                 Folio = FolioGenerator(Folio);
                                 DateTime FechaVencimiento = DateTime.Now.AddDays(Configuration.ExpirationDays);
 
                                 string Comentario = Configuration.COMMENT + Folio + ".";
 
                                 SP4GLwsService Servicio = new SP4GLwsService();                                
-                                string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + Convert.ToString(NumEmpleadoEnergex) + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;"+item.fkIdProduct+";Comentario;" + Comentario + ";";                                
+                                string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + NumEmpleadoEnergex + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;"+item.fkIdProduct+";Comentario;" + Comentario + ";";                                
                                 var response = Servicio.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, request);
 
                                 if (response != string.Empty)

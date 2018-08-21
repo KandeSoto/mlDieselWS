@@ -24,6 +24,6 @@ namespace mlDieselWS.DAL
         public int Estatus { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
         public Nullable<int> SolicitudDepositoComplementoId { get; set; }
-        public Nullable<int> NumeroEmpleadoEnergex { get; set; }
+        public string NumeroEmpleadoEnergex { get; set; }
     }
 }

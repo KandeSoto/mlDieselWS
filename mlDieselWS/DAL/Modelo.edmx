@@ -43,10 +43,8 @@
           </Key>
           <Property Name="EmpleadoEnergexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NumEmpleadoMexLog" Type="int" />
-          <Property Name="NumEmpleadoEnergex" Type="int" />
-          <Property Name="SolicitudDepositoSistemaId" Type="int" />
-          <Property Name="Traslado" Type="int" />
-          <Property Name="Transportador" Type="int" />
+          <Property Name="NumEmpleadoEnergex" Type="nvarchar" MaxLength="75" />
+          <Property Name="CentroCostosId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LitrosCargados">
           <Key>
@@ -62,7 +60,7 @@
           <Property Name="Estatus" Type="int" Nullable="false" />
           <Property Name="FechaRegistro" Type="datetime" />
           <Property Name="SolicitudDepositoComplementoId" Type="int" />
-          <Property Name="NumeroEmpleadoEnergex" Type="int" />
+          <Property Name="NumeroEmpleadoEnergex" Type="nvarchar" MaxLength="75" />
         </EntityType>
         <EntityType Name="SolicitudDeposito">
           <Key>
@@ -116,23 +114,12 @@
           <Property Name="vehicle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="comment" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="EmpleadoEnergex">
-          <Key>
-            <PropertyRef Name="EmpleadoEnergexId" />
-          </Key>
-          <Property Name="EmpleadoEnergexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumEmpleadoMexLog" Type="Int32" />
-          <Property Name="NumEmpleadoEnergex" Type="Int32" />
-          <Property Name="SolicitudDepositoSistemaId" Type="Int32" />
-          <Property Name="Traslado" Type="Int32" />
-          <Property Name="Transportador" Type="Int32" />
-        </EntityType>
         <EntityContainer Name="CombustibleEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AutorizacionesEnergex" EntityType="Self.AutorizacionesEnergex" />
-          <EntitySet Name="EmpleadoEnergex" EntityType="Self.EmpleadoEnergex" />
           <EntitySet Name="SolicitudDeposito" EntityType="CombustibleModel.SolicitudDeposito" />
           <EntitySet Name="AutorizacionesParcialesEnergex" EntityType="CombustibleModel.AutorizacionesParcialesEnergex" />
           <EntitySet Name="LitrosCargados" EntityType="CombustibleModel.LitrosCargados" />
+          <EntitySet Name="EmpleadoEnergex" EntityType="CombustibleModel.EmpleadoEnergex" />
         </EntityContainer>
         <EntityType Name="SolicitudDeposito">
           <Key>
@@ -193,7 +180,16 @@
           <Property Name="Estatus" Type="Int32" Nullable="false" />
           <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
           <Property Name="SolicitudDepositoComplementoId" Type="Int32" />
-          <Property Name="NumeroEmpleadoEnergex" Type="Int32" />
+          <Property Name="NumeroEmpleadoEnergex" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmpleadoEnergex">
+          <Key>
+            <PropertyRef Name="EmpleadoEnergexId" />
+          </Key>
+          <Property Name="EmpleadoEnergexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumEmpleadoMexLog" Type="Int32" />
+          <Property Name="NumEmpleadoEnergex" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="CentroCostosId" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -213,18 +209,6 @@
                 <ScalarProperty Name="MaxLitres" ColumnName="MaxLitres" />
                 <ScalarProperty Name="vehicle" ColumnName="vehicle" />
                 <ScalarProperty Name="comment" ColumnName="comment" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmpleadoEnergex">
-            <EntityTypeMapping TypeName="CombustibleModel.EmpleadoEnergex">
-              <MappingFragment StoreEntitySet="EmpleadoEnergex">
-                <ScalarProperty Name="Transportador" ColumnName="Transportador" />
-                <ScalarProperty Name="Traslado" ColumnName="Traslado" />
-                <ScalarProperty Name="EmpleadoEnergexId" ColumnName="EmpleadoEnergexId" />
-                <ScalarProperty Name="NumEmpleadoMexLog" ColumnName="NumEmpleadoMexLog" />
-                <ScalarProperty Name="NumEmpleadoEnergex" ColumnName="NumEmpleadoEnergex" />
-                <ScalarProperty Name="SolicitudDepositoSistemaId" ColumnName="SolicitudDepositoSistemaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -289,6 +273,16 @@
                 <ScalarProperty Name="SolicitudDepositoTraficoId" ColumnName="SolicitudDepositoTraficoId" />
                 <ScalarProperty Name="SolicitudDepositoId" ColumnName="SolicitudDepositoId" />
                 <ScalarProperty Name="LitrosCargadosId" ColumnName="LitrosCargadosId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpleadoEnergex">
+            <EntityTypeMapping TypeName="CombustibleModel.EmpleadoEnergex">
+              <MappingFragment StoreEntitySet="EmpleadoEnergex">
+                <ScalarProperty Name="CentroCostosId" ColumnName="CentroCostosId" />
+                <ScalarProperty Name="NumEmpleadoEnergex" ColumnName="NumEmpleadoEnergex" />
+                <ScalarProperty Name="NumEmpleadoMexLog" ColumnName="NumEmpleadoMexLog" />
+                <ScalarProperty Name="EmpleadoEnergexId" ColumnName="EmpleadoEnergexId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

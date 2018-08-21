@@ -16,9 +16,7 @@ namespace mlDieselWS.DAL
     {
         public int EmpleadoEnergexId { get; set; }
         public Nullable<int> NumEmpleadoMexLog { get; set; }
-        public Nullable<int> NumEmpleadoEnergex { get; set; }
-        public Nullable<int> SolicitudDepositoSistemaId { get; set; }
-        public Nullable<int> Traslado { get; set; }
-        public Nullable<int> Transportador { get; set; }
+        public string NumEmpleadoEnergex { get; set; }
+        public int CentroCostosId { get; set; }
     }
 }

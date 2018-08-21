@@ -26,9 +26,9 @@ namespace mlDieselWS.DAL
         }
     
         public virtual DbSet<AutorizacionesEnergex> AutorizacionesEnergex { get; set; }
-        public virtual DbSet<EmpleadoEnergex> EmpleadoEnergex { get; set; }
         public virtual DbSet<SolicitudDeposito> SolicitudDeposito { get; set; }
         public virtual DbSet<AutorizacionesParcialesEnergex> AutorizacionesParcialesEnergex { get; set; }
         public virtual DbSet<LitrosCargados> LitrosCargados { get; set; }
+        public virtual DbSet<EmpleadoEnergex> EmpleadoEnergex { get; set; }
     }
 }

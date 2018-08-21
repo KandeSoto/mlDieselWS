@@ -10,20 +10,22 @@ using System.Threading.Tasks;
 using mlDieselWS.EnergexService;
 using System.Timers;
 using System.Text.RegularExpressions;
+using System.Configuration;
 
 namespace mlDieselWS
 {
     public partial class Service : ServiceBase
     {
         private SP4GLwsService EnergexService;
-        private Timer Process;      
+        private Timer Process;
+        private string TimeAppConfig = ConfigurationManager.AppSettings["Tiempo"];
 
         public Service()
         {                     
             InitializeComponent();
             Process = new Timer();
-            EnergexService = new SP4GLwsService();            
-            Process.Interval = Configuration.TIME;            
+            EnergexService = new SP4GLwsService();           
+            Process.Interval = Configuration.TIME * Convert.ToInt32(TimeAppConfig);           
             Process.Elapsed += Process_Elapsed;
         }
 
@@ -53,8 +55,9 @@ namespace mlDieselWS
         {
             Process.Enabled = false;
             EventLog.WriteEntry("Inicia la ejecucion del proceso de autorizaciones energex.", EventLogEntryType.Information);
+            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);            
             EventLog.WriteEntry("Se reinicia el proceso.", EventLogEntryType.Information);
             Process.Enabled = true;
