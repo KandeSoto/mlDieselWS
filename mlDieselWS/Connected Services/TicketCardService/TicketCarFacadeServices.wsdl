@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="urn:ERMX.Services" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TicketCarFacadeServices" targetNamespace="urn:ERMX.Services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpsBinding_ITicketCarFacadeServices_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Lax />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+              <wsp:Policy>
+                <sp:WssUsernameToken10 />
+              </wsp:Policy>
+            </sp:UsernameToken>
+          </wsp:Policy>
+        </sp:SignedSupportingTokens>
+        <sp:Wss10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy />
+        </sp:Wss10>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:ERMX.Services/Imports">
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd0" namespace="urn:ERMX.Services" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Orders" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Responses" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards.Responses" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd11" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd12" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles.Responses" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd13" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Orders.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd14" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Orders.Responses" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd15" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Merchandise.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd16" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Merchandise.Responses" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd17" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice.Requests" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd18" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice" />
+      <xsd:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd19" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice.Responses" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITicketCarFacadeServices_TransactionGetItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:TransactionGetItem" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_TransactionGetItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TransactionGetItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_TransactionGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:TransactionGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_TransactionGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TransactionGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardRequisitionCreditDistribution_InputMessage">
+    <wsdl:part name="parameters" element="tns:CardRequisitionCreditDistribution" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardRequisitionCreditDistribution_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CardRequisitionCreditDistributionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_VehicleGetItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:VehicleGetItem" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_VehicleGetItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VehicleGetItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_OrderGetItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:OrderGetItem" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_OrderGetItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OrderGetItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_OrderGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:OrderGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_OrderGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OrderGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardGetItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:CardGetItem" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardGetItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CardGetItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:CardGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_CardGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CardGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_VehicleGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:VehicleGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_VehicleGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VehicleGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_MerchandiseGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:MerchandiseGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_MerchandiseGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MerchandiseGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_InvoiceGetFilteredList_InputMessage">
+    <wsdl:part name="parameters" element="tns:InvoiceGetFilteredList" />
+  </wsdl:message>
+  <wsdl:message name="ITicketCarFacadeServices_InvoiceGetFilteredList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InvoiceGetFilteredListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITicketCarFacadeServices">
+    <wsdl:operation name="TransactionGetItem">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetItem" message="tns:ITicketCarFacadeServices_TransactionGetItem_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetItemResponse" message="tns:ITicketCarFacadeServices_TransactionGetItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TransactionGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetFilteredList" message="tns:ITicketCarFacadeServices_TransactionGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetFilteredListResponse" message="tns:ITicketCarFacadeServices_TransactionGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CardRequisitionCreditDistribution">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardRequisitionCreditDistribution" message="tns:ITicketCarFacadeServices_CardRequisitionCreditDistribution_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardRequisitionCreditDistributionResponse" message="tns:ITicketCarFacadeServices_CardRequisitionCreditDistribution_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetItem">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetItem" message="tns:ITicketCarFacadeServices_VehicleGetItem_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetItemResponse" message="tns:ITicketCarFacadeServices_VehicleGetItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetItem">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetItem" message="tns:ITicketCarFacadeServices_OrderGetItem_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetItemResponse" message="tns:ITicketCarFacadeServices_OrderGetItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetFilteredList" message="tns:ITicketCarFacadeServices_OrderGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetFilteredListResponse" message="tns:ITicketCarFacadeServices_OrderGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CardGetItem">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardGetItem" message="tns:ITicketCarFacadeServices_CardGetItem_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardGetItemResponse" message="tns:ITicketCarFacadeServices_CardGetItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CardGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardGetFilteredList" message="tns:ITicketCarFacadeServices_CardGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/CardGetFilteredListResponse" message="tns:ITicketCarFacadeServices_CardGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetFilteredList" message="tns:ITicketCarFacadeServices_VehicleGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetFilteredListResponse" message="tns:ITicketCarFacadeServices_VehicleGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MerchandiseGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/MerchandiseGetFilteredList" message="tns:ITicketCarFacadeServices_MerchandiseGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/MerchandiseGetFilteredListResponse" message="tns:ITicketCarFacadeServices_MerchandiseGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InvoiceGetFilteredList">
+      <wsdl:input wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/InvoiceGetFilteredList" message="tns:ITicketCarFacadeServices_InvoiceGetFilteredList_InputMessage" />
+      <wsdl:output wsaw:Action="urn:ERMX.Services/ITicketCarFacadeServices/InvoiceGetFilteredListResponse" message="tns:ITicketCarFacadeServices_InvoiceGetFilteredList_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITicketCarFacadeServices" type="tns:ITicketCarFacadeServices">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TransactionGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransactionGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardRequisitionCreditDistribution">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardRequisitionCreditDistribution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchandiseGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/MerchandiseGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InvoiceGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/InvoiceGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpsBinding_ITicketCarFacadeServices" type="tns:ITicketCarFacadeServices">
+    <wsp:PolicyReference URI="#BasicHttpsBinding_ITicketCarFacadeServices_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="TransactionGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransactionGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/TransactionGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardRequisitionCreditDistribution">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardRequisitionCreditDistribution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrderGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/OrderGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardGetItem">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardGetItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CardGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/CardGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VehicleGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/VehicleGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MerchandiseGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/MerchandiseGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InvoiceGetFilteredList">
+      <soap:operation soapAction="urn:ERMX.Services/ITicketCarFacadeServices/InvoiceGetFilteredList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TicketCarFacadeServices">
+    <wsdl:port name="BasicHttpBinding_ITicketCarFacadeServices" binding="tns:BasicHttpBinding_ITicketCarFacadeServices">
+      <soap:address location="http://saedrmex01web27.lanet.accorservices.net/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpsBinding_ITicketCarFacadeServices" binding="tns:BasicHttpsBinding_ITicketCarFacadeServices">
+      <soap:address location="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

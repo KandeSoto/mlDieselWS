@@ -25,7 +25,8 @@ namespace mlDieselWS
             InitializeComponent();
             Process = new Timer();
             EnergexService = new SP4GLwsService();           
-            Process.Interval = Configuration.TIME * Convert.ToInt32(TimeAppConfig);           
+            //Process.Interval = Configuration.TIME * Convert.ToInt32(TimeAppConfig);
+            Process.Interval = Configuration.TIME * 1;
             Process.Elapsed += Process_Elapsed;
         }
 
@@ -54,89 +55,21 @@ namespace mlDieselWS
         private void Process_Elapsed(object sender, ElapsedEventArgs e)
         {
             Process.Enabled = false;
-            EventLog.WriteEntry("Inicia la ejecucion del proceso de autorizaciones energex.", EventLogEntryType.Information);
-            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+            EventLog.WriteEntry("Inicia la ejecucion del proceso de autorizaciones.", EventLogEntryType.Information);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);-- No se ejecutara porque afecta lo web con el cambio de ruta
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);            
             EventLog.WriteEntry("Se reinicia el proceso.", EventLogEntryType.Information);
             Process.Enabled = true;
         }
 
         private void ExecuteProcess(string Estatus)
-        {            
-            try
-            {
-                EnergexBLL Ejecution = new EnergexBLL();
-                
-                DateTime DateStart = Ejecution.GetStarDate();
-                DateTime DateEnd = DateTime.Now.AddHours(2);
-                string Parametro = "";
+        {
+            EnergexProcess(Estatus);
 
-                if (Estatus != AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)                
-                    Parametro = "com.spinvent.gascard.dbobj.Txnenquirymaxload;listado_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";FechaInicial; " + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateStart) + "; FechaFinal;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateEnd) + "; Estatus;" + Estatus + "; ";
-                else
-                    Parametro = "com.spinvent.gascard.dbobj.Txnpurchasecashcard;listado_consumos;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";FechaInicial; " + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateStart) + "; FechaFinal;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateEnd) + "; ";
-
-                var Response = EnergexService.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, Parametro);
-                    
-                if (Response != string.Empty)
-                {
-                    var HasError = Response.Split(';');
-                    if (HasError[0] == ServiceState.SERVICE_SUCCESS)
-                    {
-                        string[] List = Regex.Split(Response, "\n");
-                        List<EnergexAuthorizationList> ObjList = new List<EnergexAuthorizationList>(); 
-                        List<EnergexPartialAuthorizationList> ObjPartialList = new List<EnergexPartialAuthorizationList>(); 
-
-                        if (Estatus != AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)
-                        {                            
-                            foreach (var item in List)
-                            {
-                                var Obj = GetEnergexClass(item);
-                                ObjList.Add(Obj);
-                            }
-                        }
-                        else
-                        {                            
-                            foreach (var item in List)
-                            {
-                                var Obj = GetEnergexPartialClass(item);
-                                ObjPartialList.Add(Obj);
-                            }
-                        }
-
-                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)
-                        {
-                            int Result = Ejecution.TotalAuthorizationProcess(ObjList);
-                            LogStatusProcess(Result, "Totales");
-                        }
-
-                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_CANCELADAS)
-                        {
-                            int Result = Ejecution.CanceledAuthorizationProcess(ObjList);
-                            LogStatusProcess(Result, "Canceladas");
-                        }
-
-                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)
-                        {
-                            int Result = Ejecution.PartialAuthorizationProcess(ObjPartialList);
-                            LogStatusProcess(Result, "Parciales");
-                        }
-                    }
-                    else if (HasError[0] == ServiceState.SERVICE_NULL)
-                        EventLog.WriteEntry("El servicio contiene un listado vacio", EventLogEntryType.Information);
-                    else
-                        EventLog.WriteEntry("Hay un error con el servicio energex", EventLogEntryType.Error);
-                }
-                else
-                    EventLog.WriteEntry("No se obtuvo una respuesa del servicio", EventLogEntryType.Error);
-            }
-            catch (Exception ex)
-            {
-                EventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
-                Process.Stop();
-            }            
+            if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)            
+                TickeCarProcess(); 
         }        
 
         public EnergexAuthorizationList GetEnergexClass(string fila)
@@ -265,6 +198,105 @@ namespace mlDieselWS
                 case StatusProcess.EnvioAutorizacionErrorCancelar:
                     EventLog.WriteEntry("Se encontro un error en el proceso de cancelacion cuando se intento mandar una autorizacion " + Estatus + ".", EventLogEntryType.Error);
                     break;
+                case StatusProcess.EnvioTicketCar:
+                    EventLog.WriteEntry("Se ejecuto el proceso de ticketcar correctamente desde el proceso de: " + Estatus + ".", EventLogEntryType.Information);
+                    break;
+            }
+        }
+
+        private void EnergexProcess(string Estatus)
+        {
+            try
+            {
+                EnergexBLL Ejecution = new EnergexBLL();
+
+                //DateTime DateStart = Ejecution.GetStarDate();
+                DateTime DateStart = DateTime.Now.AddDays(-1);
+                DateTime DateEnd = DateTime.Now.AddHours(2);
+                string Parametro = "";
+
+                if (Estatus != AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)
+                    Parametro = "com.spinvent.gascard.dbobj.Txnenquirymaxload;listado_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";FechaInicial; " + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateStart) + "; FechaFinal;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateEnd) + "; Estatus;" + Estatus + "; ";
+                else
+                    Parametro = "com.spinvent.gascard.dbobj.Txnpurchasecashcard;listado_consumos;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";FechaInicial; " + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateStart) + "; FechaFinal;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateEnd) + "; ";
+
+                var Response = EnergexService.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, Parametro);
+
+                if (Response != string.Empty)
+                {
+                    var HasError = Response.Split(';');
+                    if (HasError[0] == ServiceState.SERVICE_SUCCESS)
+                    {
+                        string[] List = Regex.Split(Response, "\n");
+                        List<EnergexAuthorizationList> ObjList = new List<EnergexAuthorizationList>();
+                        List<EnergexPartialAuthorizationList> ObjPartialList = new List<EnergexPartialAuthorizationList>();
+
+                        if (Estatus != AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)
+                        {
+                            foreach (var item in List)
+                            {
+                                var Obj = GetEnergexClass(item);
+                                ObjList.Add(Obj);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in List)
+                            {
+                                var Obj = GetEnergexPartialClass(item);
+                                ObjPartialList.Add(Obj);
+                            }
+                        }
+
+                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)
+                        {
+                            int Result = Ejecution.TotalAuthorizationProcess(ObjList);
+                            LogStatusProcess(Result, "Totales");
+                        }
+
+                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_CANCELADAS)
+                        {
+                            int Result = Ejecution.CanceledAuthorizationProcess(ObjList);
+                            LogStatusProcess(Result, "Canceladas");
+                        }
+
+                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE)
+                        {
+                            int Result = Ejecution.PartialAuthorizationProcess(ObjPartialList);
+                            LogStatusProcess(Result, "Parciales");
+                        }
+                    }
+                    else if (HasError[0] == ServiceState.SERVICE_NULL)
+                        EventLog.WriteEntry("El servicio contiene un listado vacio", EventLogEntryType.Information);
+                    else
+                        EventLog.WriteEntry("Hay un error con el servicio energex", EventLogEntryType.Error);
+                }
+                else
+                    EventLog.WriteEntry("No se obtuvo una respuesa del servicio", EventLogEntryType.Error);
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry(ex.Message, EventLogEntryType.Error);
+                Process.Stop();
+            }
+        }
+
+        private void TickeCarProcess()
+        {
+            try
+            {
+                TicketCarBLL Ejecution = new TicketCarBLL();
+
+                DateTime DateStart = Ejecution.GetStarDate();
+                DateTime DateEnd = DateTime.Now.AddHours(2);
+            
+                int Result = Ejecution.TicketCarProcess(DateStart, DateEnd);
+                LogStatusProcess(Result, "TicketCar");               
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

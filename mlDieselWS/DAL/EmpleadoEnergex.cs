@@ -18,5 +18,6 @@ namespace mlDieselWS.DAL
         public Nullable<int> NumEmpleadoMexLog { get; set; }
         public string NumEmpleadoEnergex { get; set; }
         public int CentroCostosId { get; set; }
+        public string NumTarjetaTicketCar { get; set; }
     }
 }

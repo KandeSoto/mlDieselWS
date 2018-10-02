@@ -36,5 +36,7 @@ namespace mlDieselWS.DAL
         public Nullable<int> TipoTarjetaId { get; set; }
         public bool IsManual { get; set; }
         public string FolioEnergex { get; set; }
+        public Nullable<int> OrdenIdentificadorTicket { get; set; }
+        public Nullable<int> IdentificadorTicket { get; set; }
     }
 }

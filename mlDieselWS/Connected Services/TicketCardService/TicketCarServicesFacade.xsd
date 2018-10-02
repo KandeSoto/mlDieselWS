@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CardDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CustomerIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Details" nillable="true" type="tns:CardDetailDTO" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Token" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardDTO" nillable="true" type="tns:CardDTO" />
+  <xs:complexType name="CardDetailDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ActivatedInd" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AdditionalExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AdditionalInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AddressIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AvailableBalanceExecuted" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AvailableExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BlockedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CardEmbossingReasonIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardEmbossingReasonIsPreviousCardCancelingRequired" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CardGroupDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardOperationClass" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardStatusReasonIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardStatusReasonTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardTechnologyTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardTechnologyTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ClosedInd" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CorporateLevelBillingTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CorporateLevelName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CreditDistributionGroupDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreditDistributionGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CreditDistributionGroupOperationClass" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CreditDistributionTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CreditExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DeliveredInd" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeliveringUnitAddressDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeliveringUnitAddressIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="DeliveringUnitDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeliveringUnitIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="DistributionValueTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="EmbossingName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmbossingReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EntityIdentificationType" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="EntityIdentificationValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExceptionAuthorizationList" nillable="true" type="tns:ArrayOfExcepcionAuthorizationDTO" />
+      <xs:element minOccurs="0" name="ExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExpensesBudgetAmountExecuted" type="xs:decimal" />
+      <xs:element minOccurs="0" name="GarageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GarageIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="IdentificationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsStockCard" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IssueDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="NewCardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NewExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OperationCardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OperationType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OperationTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="OperatorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReissuingReasonCodeIdentification" type="xs:int" />
+      <xs:element minOccurs="0" name="ReissuingReasonDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusChip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StockCardIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StockCardOperationReasonIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ValidDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="VehicleIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleTag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTypeIdentification" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardDetailDTO" nillable="true" type="tns:CardDetailDTO" />
+  <xs:complexType name="ArrayOfExcepcionAuthorizationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExcepcionAuthorizationDTO" nillable="true" type="tns:ExcepcionAuthorizationDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExcepcionAuthorizationDTO" nillable="true" type="tns:ArrayOfExcepcionAuthorizationDTO" />
+  <xs:complexType name="ExcepcionAuthorizationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthorizationRequestNumber" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="BeginExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CancelDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreateDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CreatorUserIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="EndExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ExecutionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Identification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="StatusDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="UserCancelIdentification" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExcepcionAuthorizationDTO" nillable="true" type="tns:ExcepcionAuthorizationDTO" />
+  <xs:complexType name="CreditDistributionQueueDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DistributionTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ModificationTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OperationTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OrderIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Status" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreditDistributionQueueDTO" nillable="true" type="tns:CreditDistributionQueueDTO" />
+  <xs:complexType name="ArrayOfCardDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CardDTO" nillable="true" type="tns:CardDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCardDTO" nillable="true" type="tns:ArrayOfCardDTO" />
+</xs:schema>

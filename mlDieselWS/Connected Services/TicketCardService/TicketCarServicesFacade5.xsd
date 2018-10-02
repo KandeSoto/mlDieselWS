@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice.Requests" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice.Requests" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd18" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice" />
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
+  <xs:complexType name="InvoiceDTORequest">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Invoice" minOccurs="0" name="Item" nillable="true" type="q1:InvoiceDTO" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Paging" nillable="true" type="q2:PagingDTO" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Security" nillable="true" type="q3:SecurityDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvoiceDTORequest" nillable="true" type="tns:InvoiceDTORequest" />
+</xs:schema>

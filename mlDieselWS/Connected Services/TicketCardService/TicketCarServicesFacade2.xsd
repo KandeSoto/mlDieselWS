@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="VehicleDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomParameters" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Driver" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DriverDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DriverIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="DriverNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DriverStateDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="IdentificationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kilometers" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="MotorNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Performance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Plate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RealPerformance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ResponseCustomParameters" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SerialNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TankCapacity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Travel" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleDetail" nillable="true" type="tns:VehicleDetailDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VehicleDTO" nillable="true" type="tns:VehicleDTO" />
+  <xs:complexType name="VehicleDetailDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AcquisitionCurrencyDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquisitionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AcquisitionValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AdditionalExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AddressDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AdministrativeTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AlternativeEfficiency" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AlternativeTolerance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Alternator" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AnnualDepreciationRate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AssignDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AvailableBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AvailableExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Battery" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardGroupDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardTechnologyTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ControlTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CostCenterAbbreviateDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CreditDistributionGroupDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreditDistributionGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CurrencyPurchaseIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CurrentValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Cylinders" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="DeliveringUnitIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="DeliveringUnitName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DischargeVolume" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Displacement" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DistributionValueTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DistributionValueTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Doors" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmbossingAdditionalInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EngineDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EngineNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EnginePerformance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EnginePerformanceTolerance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EntityIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="EntityTypeIdentitication" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ExpensesBudgetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExternalIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FrontBreaks" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FrontSuspension" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FrontTires" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FrontWheels" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FuelEfficiency" type="xs:decimal" />
+      <xs:element minOccurs="0" name="FuelTankList" nillable="true" type="tns:ArrayOfFuelTankDTO" />
+      <xs:element minOccurs="0" name="GarageAbbreviation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GarageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GarageIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="HasCardHolder" type="xs:boolean" />
+      <xs:element minOccurs="0" name="HorsePower" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="HourmeterDigits" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="HourmeterValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IdentificationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdentificationType" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="InsuranceCompanyDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InsuranceCompanyIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="InsuranceCoverageAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InsuranceCurrencyDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InsuranceCurrencyIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="InsuranceEffectiveDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InsuranceExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InsurancePolicy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InsuranceTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InsuranceTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="IsCIUCard" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsCardEnabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsCardIssuing" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LifeCicle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Maintenance" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MaintenanceInterval" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ManufactoringYear" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ManufacturerDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchandiseIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="MerchandiseQuantity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ModelDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModelYear" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="MovementPermit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MovementPermitExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OdometerDigits" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="OdometerValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OilSumpCapacity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OpenedBudgetsCount" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="OperationClass" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrderPaymentTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="OwnershipDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OwnershipIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="POSIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Passengers" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Payload" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PeriodicityByVehicle" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="RealtyOwnershipIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="RearBreaks" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RearSuspension" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RearTires" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RearWheels" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegistrationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="RegistrationNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Responsable" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RoadEfficiency" type="xs:decimal" />
+      <xs:element minOccurs="0" name="StatusCardDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusCardIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="StatusDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TagNFCIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TargetCardGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TargetCorporateLevelIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TargetCreditDistributionGroupIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TargetCustomerContractIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Torque" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Transmition" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UrbanEfficiency" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ValueTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleChassis" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleEngineIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleManufacturerIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleModelDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleModelIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleTag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTagCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTagState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTechnicalSpecificationIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleTypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VehicleTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleVersionIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VersionDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WarrantyExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Weight" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VehicleDetailDTO" nillable="true" type="tns:VehicleDetailDTO" />
+  <xs:complexType name="ArrayOfFuelTankDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FuelTankDTO" nillable="true" type="tns:FuelTankDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFuelTankDTO" nillable="true" type="tns:ArrayOfFuelTankDTO" />
+  <xs:complexType name="FuelTankDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Capacity" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="FuelList" nillable="true" type="tns:ArrayOfFuelDTO" />
+      <xs:element minOccurs="0" name="FuelUnitDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FuelUnitIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="IsPrimaryTank" type="xs:boolean" />
+      <xs:element minOccurs="0" name="StatusIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleEquipmentIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="identification" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FuelTankDTO" nillable="true" type="tns:FuelTankDTO" />
+  <xs:complexType name="ArrayOfFuelDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FuelDTO" nillable="true" type="tns:FuelDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFuelDTO" nillable="true" type="tns:ArrayOfFuelDTO" />
+  <xs:complexType name="FuelDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FuelTankIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="FuelUnitDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FuelUnitIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Identification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VehicleEquipmentIdentification" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FuelDTO" nillable="true" type="tns:FuelDTO" />
+  <xs:complexType name="ArrayOfVehicleDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VehicleDTO" nillable="true" type="tns:VehicleDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVehicleDTO" nillable="true" type="tns:ArrayOfVehicleDTO" />
+</xs:schema>

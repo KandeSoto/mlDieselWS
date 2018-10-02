@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards" />
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Orders" />
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" />
+  <xs:complexType name="TransactionDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CardNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardRequisition" nillable="true" type="tns:CardRequisitionDTO" />
+      <xs:element minOccurs="0" name="CustomerIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Detail" nillable="true" type="tns:TransactionDetailDTO" />
+      <xs:element minOccurs="0" name="IEPSAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IVAAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Identification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="InformationType" type="xs:int" />
+      <xs:element minOccurs="0" name="IsInvoiced" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TransactionDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionDateTimeEnd" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionDateTimeStart" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionFilter" nillable="true" type="tns:TransactionFilterDTO" />
+      <xs:element minOccurs="0" name="TransactionMerchandiseList" nillable="true" type="tns:ArrayOfTransactionMerchandiseDTO" />
+      <xs:element minOccurs="0" name="TypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="VatAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatRate" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionDTO" nillable="true" type="tns:TransactionDTO" />
+  <xs:complexType name="CardRequisitionDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PreAuhorizationIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TripReference" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardRequisitionDTO" nillable="true" type="tns:CardRequisitionDTO" />
+  <xs:complexType name="TransactionDetailDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccessOperationIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AccountIdentification" type="xs:long" />
+      <xs:element minOccurs="0" name="ActionCourseReasonDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Afiliate" nillable="true" type="tns:AfiliateDTO" />
+      <xs:element minOccurs="0" name="AuthRejectionReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AuthRejectionReasonIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AuthorizationNumber" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="AuthorizationReversalCofirmationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AuthorizationTimestamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="AuthorizedAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AvailableBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AvailableNewBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AvailableOldBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BillingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ByPhoneAuthReasonDescription" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Cards" minOccurs="0" name="Card" nillable="true" type="q1:CardDTO" />
+      <xs:element minOccurs="0" name="CardAcceptorCountryIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardAcceptorIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CardAcceptorTerminalIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CardAcceptorTerminalType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreditLineTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CurrencyIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CustomerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EntityHierarchy" nillable="true" type="tns:EntityHierarchyDTO" />
+      <xs:element minOccurs="0" name="EntityIdentificationValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExceptionAuthorizationIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ExpirationDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ExternalOrderNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FolioControlNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GarageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GarageIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="HasVolumetricControl" type="xs:boolean" />
+      <xs:element minOccurs="0" name="HourmeterCurrentValue" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="HourmeterPreviousValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HourmeterValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InvoiceChargeDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InvoiceDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InvoiceReference" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsAuthorizationConfirmed" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsAuthorizationReturn" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsAuthorizationReversal" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsBillable" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsTransactionApproved" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Merchandise" nillable="true" type="tns:MerchandiseDTO" />
+      <xs:element minOccurs="0" name="MerchandiseQuantity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MerchantCategoryCodeNumber" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="NonFinancialAuthorizationRequestIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="NumberVoucher" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Observation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OdometerPreviousValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OfflineAuthResponseIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="OfflineTransactionStatusIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="POSIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PersonOrVehicleIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneAuthorizationReasonDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneAuthorizationReasonIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="PosEntryModelIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="PostingDate" type="xs:dateTime" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Orders" minOccurs="0" name="Preautorization" nillable="true" type="q2:PreautorizationDTO" />
+      <xs:element minOccurs="0" name="ProcessingDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ProcessingDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProcessingIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="ReinbursementDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ReturnMessage" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceOrderNumber" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="SpecialTax" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SpecialTaxAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="StockCardIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TagNFCCardIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TagNFCVehicleIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TankLevelIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TerminalIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TransactionCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionCurrentKm" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TransactionOperation" nillable="true" type="tns:TransactionOperationDTO" />
+      <xs:element minOccurs="0" name="TransactionOperationClass" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TransactionPreviousBalance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TransactionPreviousKm" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="TransactionRequiredInformationList" nillable="true" type="tns:ArrayOfTransactionRequiredInformationDTO" />
+      <xs:element minOccurs="0" name="TransactionState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TravelDistance" type="xs:decimal" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" minOccurs="0" name="Vehicle" nillable="true" type="q3:VehicleDTO" />
+      <xs:element minOccurs="0" name="VehicleRealPerformance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="isInvoiceCharged" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionDetailDTO" nillable="true" type="tns:TransactionDetailDTO" />
+  <xs:complexType name="AfiliateDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BrandCode" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CertificationCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Identification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SocialReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AfiliateDTO" nillable="true" type="tns:AfiliateDTO" />
+  <xs:complexType name="EntityHierarchyDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CostCenter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostCenterDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionCustomIdentification" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionGroup" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionGroupDescription" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EntityHierarchyDTO" nillable="true" type="tns:EntityHierarchyDTO" />
+  <xs:complexType name="MerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DiscountType" type="xs:int" />
+      <xs:element minOccurs="0" name="Identification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Quantity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TypeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="UnitDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UnitIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="UnitPrice" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MerchandiseDTO" nillable="true" type="tns:MerchandiseDTO" />
+  <xs:complexType name="ArrayOfAcceptanceRestrictionMerchantDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AcceptanceRestrictionMerchantDTO" nillable="true" type="tns:AcceptanceRestrictionMerchantDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAcceptanceRestrictionMerchantDTO" nillable="true" type="tns:ArrayOfAcceptanceRestrictionMerchantDTO" />
+  <xs:complexType name="AcceptanceRestrictionMerchantDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AcceptanceRestrictionIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="CityName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchantIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="MerchantName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NeighborhoodName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SpecificMerchantIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="StateName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AcceptanceRestrictionMerchantDTO" nillable="true" type="tns:AcceptanceRestrictionMerchantDTO" />
+  <xs:complexType name="ArrayOfRequisitionMerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RequisitionMerchandiseDTO" nillable="true" type="tns:RequisitionMerchandiseDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRequisitionMerchandiseDTO" nillable="true" type="tns:ArrayOfRequisitionMerchandiseDTO" />
+  <xs:complexType name="RequisitionMerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MerchandiseList" nillable="true" type="tns:ArrayOfMerchandiseDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequisitionMerchandiseDTO" nillable="true" type="tns:RequisitionMerchandiseDTO" />
+  <xs:complexType name="ArrayOfMerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MerchandiseDTO" nillable="true" type="tns:MerchandiseDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMerchandiseDTO" nillable="true" type="tns:ArrayOfMerchandiseDTO" />
+  <xs:complexType name="TransactionOperationDTO">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="TransactionOperationDTO" nillable="true" type="tns:TransactionOperationDTO" />
+  <xs:complexType name="ArrayOfTransactionRequiredInformationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransactionRequiredInformationDTO" nillable="true" type="tns:TransactionRequiredInformationDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransactionRequiredInformationDTO" nillable="true" type="tns:ArrayOfTransactionRequiredInformationDTO" />
+  <xs:complexType name="TransactionRequiredInformationDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MaxLengthResponse" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="MinLengthResponse" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="RequiredInformationDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RequiredInformationResponseTypeIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ValueType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionRequiredInformationDTO" nillable="true" type="tns:TransactionRequiredInformationDTO" />
+  <xs:complexType name="TransactionFilterDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerIdentification" type="xs:unsignedInt" />
+      <xs:element minOccurs="0" name="EndRankDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InitRankDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsInvoiced" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionFilterDTO" nillable="true" type="tns:TransactionFilterDTO" />
+  <xs:complexType name="ArrayOfTransactionMerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransactionMerchandiseDTO" nillable="true" type="tns:TransactionMerchandiseDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransactionMerchandiseDTO" nillable="true" type="tns:ArrayOfTransactionMerchandiseDTO" />
+  <xs:complexType name="TransactionMerchandiseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IVAAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnitValue" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnitValueWithoutIEPS" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnitValueWithoutIVA" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionMerchandiseDTO" nillable="true" type="tns:TransactionMerchandiseDTO" />
+  <xs:complexType name="ArrayOfTransactionDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransactionDTO" nillable="true" type="tns:TransactionDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransactionDTO" nillable="true" type="tns:ArrayOfTransactionDTO" />
+</xs:schema>

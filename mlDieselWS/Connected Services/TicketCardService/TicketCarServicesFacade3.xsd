@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Responses" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Responses" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
+  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" />
+  <xs:complexType name="TransactionItemDTOResponse">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="ErrorList" nillable="true" type="q1:ArrayOfErrorDTO" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" minOccurs="0" name="Item" nillable="true" type="q2:TransactionDTO" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionItemDTOResponse" nillable="true" type="tns:TransactionItemDTOResponse" />
+  <xs:complexType name="TransactionListDTOResponse">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="ErrorList" nillable="true" type="q3:ArrayOfErrorDTO" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" minOccurs="0" name="List" nillable="true" type="q4:ArrayOfTransactionDTO" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Paging" nillable="true" type="q5:PagingDTO" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactionListDTOResponse" nillable="true" type="tns:TransactionListDTOResponse" />
+</xs:schema>

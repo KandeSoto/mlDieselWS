@@ -27,7 +27,19 @@ namespace mlDieselWS
         public const string DEVICE = "000001";
         public const int TIME = 60000;
         public const string COMMENT = "Se realizo autorizacion de combustible desdes el sistema desde el folio: ";
-        public const int ExpirationDays = 7;
+        public const int ExpirationDays = 7;        
+    }
+
+    public partial class ConfigurationTicketCar
+    {        
+        public const string EXTERNAL_VALID_USER_ID = "1009";
+        public const string EXTERNAL_VALID_PASSWORD = "uYc82pmkQEXsHQ6CnEhq4b8GFBXuw3";
+        public const string PROVIDED_TOKEN = "mh4UkzC32QewtGKyLxGvqauqq9ctzvcgBDGZuarEUxFQhwMhZ22zAqG9p7tAPUvLBYxmv6XmxQLQZhk7KhnDj84k6XWP6vPBE37rgeK93hW7XaCMJZpNqUJstnSW5PWw==";
+        public const string CLIENT_IP = "131.72.230.116";
+        public const int PAGE_RECORDS = 20;
+        public const int PAG_NUMBER = 0;
+        public const bool GET_ALL_RECORDS = false;
+        public const bool ONLINE_TRX = false;
     }
 
     public partial class Producto
@@ -35,6 +47,9 @@ namespace mlDieselWS
         public const string MAGNA = "1";
         public const string PREMIUM = "2";
         public const string DIESEL = "3";
+        public const int MAGNA_TICKET = 106;
+        public const int PREMIUM_TICKET = 108;
+        public const int DIESEL_TICKET = 103;
     }
 
     public partial class StatusProcess
@@ -44,6 +59,51 @@ namespace mlDieselWS
         public const int EnvioTotal = 2;
         public const int SoloEjecutoProceso = 3;
         public const int EnvioAutorizacionErrorCancelar = 5;
+        public const int EnvioTicketCar = 6;
     }
-    
+
+    public partial class NotaValeEstatus
+    {
+        public const int USADA = 11;
+        public const int EN_ESPERA = 12;
+        public const int ANULADA = 13;
+        public const int VENCIDA = 14;
+        public const int NO_DEFINIDO = 19;
+    }
+
+    public partial class OrderStatusIdentification
+    {
+        public const int AGENDADO = 1;
+        public const int ESPERANDO_PROCESAMIENTO = 2;
+        public const int PROCESANDO = 3;
+        public const int FINALIZADO_SUCESO = 4;
+        public const int ANULACION_PENDIENTE = 5;
+        public const int ANULADO = 6;
+        public const int NO_ACEPTO = 7;
+        public const int REGISTRO_SUCESO = 8;
+        public const int FINALIZADO_PARCIALMENTE = 9;
+    }
+
+    public partial class TypeIdentification
+    {
+        public const int MONTO = 1;
+        public const int LITROS = 2;
+    }
+
+    public partial class OperationIdentification
+    {
+        public const int CREATE = 0;
+        public const int UPDATE = 1;
+        public const int CANCEL = 2;
+    }
+
+    public partial class SolicitudDepositoStatus
+    {
+        public const int SOLICITADO = 0;
+        public const int APROBADO = 1;
+        public const int RECHAZADO = 2;
+        public const int ELIMINADO = 3;
+        public const int TERMINADO = 4;
+    }
+
 }
