@@ -1,83 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-  <xs:complexType name="PagingDTO">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles.Requests" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles.Requests" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" />
+  <xs:import schemaLocation="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
+  <xs:complexType name="VehicleDTORequest">
     <xs:sequence>
-      <xs:element minOccurs="0" name="All" type="xs:boolean" />
-      <xs:element minOccurs="0" name="PageNumber" type="xs:unsignedInt" />
-      <xs:element minOccurs="0" name="PageRecords" type="xs:unsignedInt" />
-      <xs:element minOccurs="0" name="TotalRecords" type="xs:unsignedInt" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Vehicles" minOccurs="0" name="Item" nillable="true" type="q1:VehicleDTO" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Paging" nillable="true" type="q2:PagingDTO" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Security" nillable="true" type="q3:SecurityDTO" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="SelectionType" type="q4:SelectionType" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="PagingDTO" nillable="true" type="tns:PagingDTO" />
-  <xs:complexType name="SecurityDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="CustomerIdentification" type="xs:int" />
-      <xs:element minOccurs="0" name="Ip" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Token" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SecurityDTO" nillable="true" type="tns:SecurityDTO" />
-  <xs:complexType name="ArrayOfErrorDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="ErrorDTO" nillable="true" type="tns:ErrorDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfErrorDTO" nillable="true" type="tns:ArrayOfErrorDTO" />
-  <xs:complexType name="ErrorDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="TypeError" type="xs:unsignedInt" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ErrorDTO" nillable="true" type="tns:ErrorDTO" />
-  <xs:simpleType name="OrderOperationClass">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Assing" />
-      <xs:enumeration value="Cancel" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="OrderOperationClass" nillable="true" type="tns:OrderOperationClass" />
-  <xs:simpleType name="SelectionType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Flat" />
-      <xs:enumeration value="Full" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="SelectionType" nillable="true" type="tns:SelectionType" />
-  <xs:simpleType name="OrderType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="None" />
-      <xs:enumeration value="Dispersion2">
-        <xs:annotation>
-          <xs:appinfo>
-            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="DispersionWithFundOrders11">
-        <xs:annotation>
-          <xs:appinfo>
-            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="Devolution12">
-        <xs:annotation>
-          <xs:appinfo>
-            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:enumeration>
-      <xs:enumeration value="NoteVoucher19">
-        <xs:annotation>
-          <xs:appinfo>
-            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">19</EnumerationValue>
-          </xs:appinfo>
-        </xs:annotation>
-      </xs:enumeration>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="OrderType" nillable="true" type="tns:OrderType" />
+  <xs:element name="VehicleDTORequest" nillable="true" type="tns:VehicleDTORequest" />
 </xs:schema>

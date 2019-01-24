@@ -25,5 +25,7 @@ namespace mlDieselWS.DAL
         public Nullable<int> IdSolicitudTrafico { get; set; }
         public Nullable<int> TipoTarjetaId { get; set; }
         public string Justificacion { get; set; }
+    
+        public virtual SolicitudDepositoTrafico SolicitudDepositoTrafico { get; set; }
     }
 }

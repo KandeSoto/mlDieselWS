@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="256cc3e4-db40-4ff2-8afb-4cc62f76eaf9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f9466be8-954a-4225-8179-a86b60d61235" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,31 +19,31 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="TicketCarServicesFacade.xsd" MetadataType="Schema" ID="370f5142-3922-41fd-9cc3-e1db8523d7c9" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd4" />
-    <MetadataFile FileName="TicketCarServicesFacade1.xsd" MetadataType="Schema" ID="86ac805c-fb7a-45d1-bc35-d37c5edf7146" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd18" />
-    <MetadataFile FileName="TicketCarFacadeServices.wsdl" MetadataType="Wsdl" ID="e3ef6bc5-4814-4aec-98bb-56bf8547a311" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?wsdl" />
-    <MetadataFile FileName="TicketCarServicesFacade2.xsd" MetadataType="Schema" ID="53f4927d-e511-4ab9-8427-3a9f54d289a0" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd6" />
-    <MetadataFile FileName="TicketCarServicesFacade3.xsd" MetadataType="Schema" ID="7b558ccc-9818-44e2-bbeb-b796d9d4af00" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd8" />
-    <MetadataFile FileName="TicketCarServicesFacade4.xsd" MetadataType="Schema" ID="2ab70e14-602a-4335-9b32-2dcb42ff82f5" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" />
-    <MetadataFile FileName="TicketCarServicesFacade5.xsd" MetadataType="Schema" ID="5aa16e49-535c-4325-a50a-dc933f2ba587" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd17" />
-    <MetadataFile FileName="TicketCarServicesFacade6.xsd" MetadataType="Schema" ID="bb6c872c-d803-4103-b44a-3ed885c8bbea" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd16" />
-    <MetadataFile FileName="TicketCarServicesFacade7.xsd" MetadataType="Schema" ID="c911220e-2e81-4bc6-8493-34e4d3cf0217" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd1" />
-    <MetadataFile FileName="TicketCarServicesFacade8.xsd" MetadataType="Schema" ID="e7bae27d-c4bf-4a95-a335-b27c4b96feb0" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd14" />
-    <MetadataFile FileName="TicketCarServicesFacade9.xsd" MetadataType="Schema" ID="16dd43eb-a8db-402f-9152-b2497242a87f" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd13" />
-    <MetadataFile FileName="TicketCarServicesFacade10.xsd" MetadataType="Schema" ID="6cb972f6-a653-4ea8-8ffc-a6bb3f544e03" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd19" />
-    <MetadataFile FileName="TicketCarServicesFacade11.xsd" MetadataType="Schema" ID="1bad24c0-fc0e-46fb-a725-b8cb8c781f35" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" />
-    <MetadataFile FileName="TicketCarServicesFacade12.xsd" MetadataType="Schema" ID="ec6829a3-e664-4c36-81c8-34f77f6b72fb" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd5" />
-    <MetadataFile FileName="TicketCarServicesFacade13.xsd" MetadataType="Schema" ID="825da2c4-2bac-4480-a2cd-37fc3384ef8a" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd15" />
-    <MetadataFile FileName="TicketCarServicesFacade.disco" MetadataType="Disco" ID="f399cc7f-950a-462e-a442-f4cedc83b2d4" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?disco" />
-    <MetadataFile FileName="TicketCarServicesFacade14.xsd" MetadataType="Schema" ID="096fbd89-b345-45c6-9742-1f4232acb7b9" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd0" />
-    <MetadataFile FileName="TicketCarServicesFacade15.xsd" MetadataType="Schema" ID="1a0c4307-2c74-4c38-b039-77fcbf77cd1e" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd9" />
-    <MetadataFile FileName="TicketCarServicesFacade16.xsd" MetadataType="Schema" ID="697fde58-d3a5-4b1e-8f90-784d33bd0fc2" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd10" />
-    <MetadataFile FileName="TicketCarServicesFacade17.xsd" MetadataType="Schema" ID="9568171a-dadd-472a-bca0-cc7d87250795" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd12" />
-    <MetadataFile FileName="TicketCarServicesFacade18.xsd" MetadataType="Schema" ID="c3434906-688c-4e71-8f8c-8a3cef5dc35d" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd11" />
-    <MetadataFile FileName="TicketCarServicesFacade19.xsd" MetadataType="Schema" ID="9cb4d397-9f90-42fe-a4ff-89aeb944a102" SourceId="1" SourceUrl="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd2" />
+    <MetadataFile FileName="TicketCarServicesFacade.disco" MetadataType="Disco" ID="6a6b5a4b-5c59-43a5-8515-48f0a3faa596" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?disco" />
+    <MetadataFile FileName="TicketCarServicesFacade.xsd" MetadataType="Schema" ID="8fc78f6c-1fcd-4e15-898d-8b063bd28d20" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd2" />
+    <MetadataFile FileName="TicketCarServicesFacade1.xsd" MetadataType="Schema" ID="5b61968a-e1d1-4420-b2a6-7217cd13d382" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd6" />
+    <MetadataFile FileName="TicketCarServicesFacade2.xsd" MetadataType="Schema" ID="3fd2b217-1bde-4311-b5ee-c528cbf8775a" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd14" />
+    <MetadataFile FileName="TicketCarServicesFacade3.xsd" MetadataType="Schema" ID="e4377419-fbea-460e-8178-bb2bed2a0f7c" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd18" />
+    <MetadataFile FileName="TicketCarFacadeServices.wsdl" MetadataType="Wsdl" ID="01dbed9f-c4f4-4617-bd40-1005385f4792" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?wsdl" />
+    <MetadataFile FileName="TicketCarServicesFacade4.xsd" MetadataType="Schema" ID="387d6672-f028-406c-8011-ee57cf627ad9" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd11" />
+    <MetadataFile FileName="TicketCarServicesFacade5.xsd" MetadataType="Schema" ID="951a66e4-b431-4f13-857b-5cdfef018522" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd17" />
+    <MetadataFile FileName="TicketCarServicesFacade6.xsd" MetadataType="Schema" ID="2a5741b6-4615-42d4-b0b9-8d580f9ba66f" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" />
+    <MetadataFile FileName="TicketCarServicesFacade7.xsd" MetadataType="Schema" ID="ffde5808-02d4-4e03-b75d-c1652c0e137c" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" />
+    <MetadataFile FileName="TicketCarServicesFacade8.xsd" MetadataType="Schema" ID="0809670b-e382-472f-9140-d74172dfd3d1" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd15" />
+    <MetadataFile FileName="TicketCarServicesFacade9.xsd" MetadataType="Schema" ID="4cc9d777-357e-4e40-976a-b70c2c8be494" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd12" />
+    <MetadataFile FileName="TicketCarServicesFacade10.xsd" MetadataType="Schema" ID="e2ea4503-a86f-42f0-85f3-9104ed05ef9a" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd8" />
+    <MetadataFile FileName="TicketCarServicesFacade11.xsd" MetadataType="Schema" ID="7de51524-4991-4bcf-ad3b-88bdb40149bc" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd0" />
+    <MetadataFile FileName="TicketCarServicesFacade12.xsd" MetadataType="Schema" ID="3e82eea3-814c-4f71-a281-36dc8b8d326c" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd4" />
+    <MetadataFile FileName="TicketCarServicesFacade13.xsd" MetadataType="Schema" ID="793f6f81-c272-4e0c-8ada-cc78d8175bf4" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd10" />
+    <MetadataFile FileName="TicketCarServicesFacade14.xsd" MetadataType="Schema" ID="4f8171f5-f462-4af8-9ec8-786485e9f391" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd19" />
+    <MetadataFile FileName="TicketCarServicesFacade15.xsd" MetadataType="Schema" ID="6e78bbe6-af4a-4a04-bc12-87db07a739cf" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd9" />
+    <MetadataFile FileName="TicketCarServicesFacade16.xsd" MetadataType="Schema" ID="e2d484f9-c098-4372-b0c9-0c7f3cbeb552" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd1" />
+    <MetadataFile FileName="TicketCarServicesFacade17.xsd" MetadataType="Schema" ID="99a5ed78-1494-4e4d-be79-73cc4f3a802e" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd5" />
+    <MetadataFile FileName="TicketCarServicesFacade18.xsd" MetadataType="Schema" ID="4c9e28a6-24b9-4112-986f-1c1c51d2c259" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd13" />
+    <MetadataFile FileName="TicketCarServicesFacade19.xsd" MetadataType="Schema" ID="c4369770-4c7b-4695-b1e6-4221fa04e40d" SourceId="1" SourceUrl="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd16" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

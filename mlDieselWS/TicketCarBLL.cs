@@ -35,22 +35,41 @@ namespace mlDieselWS
                         foreach (var item in ListaOrdenes)
                         {
                             int EstatusLitros = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-                            var LitrosCargado = db.LitrosCargados.Where(w => w.OrdenIdentificadorTicket == item && w.Estatus == EstatusLitros).FirstOrDefault();
+                            var LitrosCargados = db.LitrosCargados.Where(w => w.OrdenIdentificadorTicket == item && w.Estatus == EstatusLitros).FirstOrDefault();
 
-                            if (LitrosCargado != null)
+                            if (LitrosCargados != null && LitrosCargados.SolicitudDepositoId == 19912)
                             {
-                                int Estatus = ObtenerEstatusOrdenNotaVale(item);
+                                Tuple<int,int> EstatusTupla = ObtenerEstatusOrdenNotaVale(item);
+                                int Estatus = 0;
 
-                                if (Estatus != 0)
+                                if (EstatusTupla.Item1 != 0)
                                 {
-                                    Tuple<bool, decimal> Transaccion = ObtenerListadoTransacciones(Star, End, LitrosCargado.NumeroTarjetaTicket, LitrosCargado.IdentificadorTicket.Value);
+                                    Tuple<bool, decimal> Transaccion = new Tuple<bool, decimal>(true, 0);
+
+                                    if (EstatusTupla.Item1 != 13 && EstatusTupla.Item2 < ConfigurationTicketCar.VECES_UTILIZADAS)
+                                    {
+                                        Transaccion = ObtenerListadoTransacciones(Star, End, LitrosCargados.NumeroTarjetaTicket, LitrosCargados.IdentificadorTicket.Value);
+
+                                        if(Transaccion.Item1 == true && Transaccion.Item2 <= 0)
+                                            Transaccion = new Tuple<bool, decimal>(false, 0);
+                                    }
 
                                     if (Transaccion.Item1 != false)
                                     {
-                                        switch (Estatus)
+                                        switch (EstatusTupla.Item1)
                                         {
                                             case NotaValeEstatus.EN_ESPERA:
-                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                                                if (EstatusTupla.Item2 < ConfigurationTicketCar.VECES_UTILIZADAS)
+                                                {
+                                                    if(Transaccion.Item2 == LitrosCargados.LitrosSolicitados)
+                                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
+                                                    else
+                                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
+                                                }
+                                                else
+                                                {
+                                                    Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                                                }                                                                                             
                                                 break;
                                             case NotaValeEstatus.USADA:
                                                 Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
@@ -58,21 +77,18 @@ namespace mlDieselWS
                                             case NotaValeEstatus.ANULADA:
                                                 Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
                                                 break;
-                                            case NotaValeEstatus.VENCIDA:
-                                                if (Transaccion.Item2 > 0)
-                                                    Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
-                                                else
+                                            case NotaValeEstatus.VENCIDA:                                               
                                                     Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
                                                 break;
                                         }
 
-                                        if (LitrosCargado.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
+                                        if (LitrosCargados.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
                                         {
 
-                                            var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargado.SolicitudDepositoId).FirstOrDefault();
+                                            var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
 
                                             if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                                solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
+                                                solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
 
                                             if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
                                                 solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
@@ -82,12 +98,12 @@ namespace mlDieselWS
 
                                         }
 
-                                        if (LitrosCargado.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
+                                        if (LitrosCargados.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
                                         {
-                                            var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargado.SolicitudDepositoTraficoId).FirstOrDefault();
+                                            var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
 
                                             if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                                solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
+                                                solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
 
                                             if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
                                                 solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
@@ -97,11 +113,10 @@ namespace mlDieselWS
 
                                         }
 
+                                        LitrosCargados.LitrosCargados1 = Transaccion.Item2;
+                                        LitrosCargados.Estatus = Estatus;
 
-                                        LitrosCargado.LitrosCargados1 = Transaccion.Item2;
-                                        LitrosCargado.Estatus = Estatus;
-
-                                        db.Entry(LitrosCargado).State = EntityState.Modified;
+                                        db.Entry(LitrosCargados).State = EntityState.Modified;
                                         db.SaveChanges();
 
                                         Result = StatusProcess.EnvioTicketCar;
@@ -172,10 +187,11 @@ namespace mlDieselWS
             #endregion
         }
 
-        private int ObtenerEstatusOrdenNotaVale(int OrderNumber)
+        private Tuple<int,int> ObtenerEstatusOrdenNotaVale(int OrderNumber)
         {
             #region ObtenerOrdenEstatusNotaVale
-            int NotaValeEstatus = 0;
+            // int NotaValeEstatus = 0;
+            Tuple<int, int> NotaValeEstatus = new Tuple<int, int>(0,0);
             try
             {
                 var ExtClient = new TicketCarFacadeServicesClient("BasicHttpsBinding_ITicketCarFacadeServices");
@@ -195,8 +211,8 @@ namespace mlDieselWS
                 response = ExtClient.OrderGetItem(request);
 
                 if (response.Success)
-                {                                        
-                    NotaValeEstatus = Convert.ToInt32(response.Item.DetailList.Select(s => s.PreAuthorizationStatusIdentification).FirstOrDefault());                                                           
+                {                    
+                    NotaValeEstatus = new Tuple<int, int>(Convert.ToInt32(response.Item.DetailList.Select(s => s.PreAuthorizationStatusIdentification).FirstOrDefault()), Convert.ToInt32(response.Item.PreAuthorizationAvailableQuantity));                                                           
                 }
                 else if (response.ErrorList != null && response.ErrorList.Any())
                 {
@@ -214,7 +230,7 @@ namespace mlDieselWS
         }
 
         private Tuple<bool,decimal> ObtenerListadoTransacciones(DateTime Star, DateTime End, string CardNumber, int Identificador)
-        {//	24076
+        {
             decimal LitrosCargados = 0;
             bool Resultado = false;
             #region ObtenerListadoTransacciones
@@ -242,7 +258,12 @@ namespace mlDieselWS
                 {
                     if (response.List != null)
                     {
-                        LitrosCargados = response.List.Where(w => w.Detail.NumberVoucher == Identificador.ToString()).Select(s => s.Detail.Merchandise.Quantity).FirstOrDefault();
+                        foreach (var item in response.List)
+                        {
+                            if (item.CardRequisition.PreAuhorizationIdentification == Identificador)
+                                LitrosCargados += item.Detail.Merchandise.Quantity;                                                        
+                        }                        
+                        
                         Resultado = true;
                     }
                 }

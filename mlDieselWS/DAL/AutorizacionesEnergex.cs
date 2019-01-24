@@ -23,5 +23,6 @@ namespace mlDieselWS.DAL
         public string MaxLitres { get; set; }
         public string vehicle { get; set; }
         public string comment { get; set; }
+        public string Estatus { get; set; }
     }
 }

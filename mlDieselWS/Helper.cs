@@ -18,6 +18,7 @@ namespace mlDieselWS
         public const string AUTORIZACIONES_UTILIZADAS_TOTALIDAD = "1";
         public const string AUTORIZACIONES_UTILIZADAS_PARCIALMENTE = "2";
         public const string AUTORIZACIONES_CANCELADAS = "3";
+        public const string AUTORIZACIONES_VENCIDAS = "4";
     }
 
     public partial class Configuration
@@ -26,20 +27,21 @@ namespace mlDieselWS
         public const string PASS = "333";
         public const string DEVICE = "000001";
         public const int TIME = 60000;
-        public const string COMMENT = "Se realizo autorizacion de combustible desdes el sistema desde el folio: ";
-        public const int ExpirationDays = 7;        
+        public const string COMMENT = "Se realizo autorizacion de combustible desde el servicio con el viaje: ";
+        public const int ExpirationDays = 3;        
     }
 
     public partial class ConfigurationTicketCar
     {        
-        public const string EXTERNAL_VALID_USER_ID = "1009";
-        public const string EXTERNAL_VALID_PASSWORD = "uYc82pmkQEXsHQ6CnEhq4b8GFBXuw3";
-        public const string PROVIDED_TOKEN = "mh4UkzC32QewtGKyLxGvqauqq9ctzvcgBDGZuarEUxFQhwMhZ22zAqG9p7tAPUvLBYxmv6XmxQLQZhk7KhnDj84k6XWP6vPBE37rgeK93hW7XaCMJZpNqUJstnSW5PWw==";
+        public const string EXTERNAL_VALID_USER_ID = "157";
+        public const string EXTERNAL_VALID_PASSWORD = "PMCOM23243533EDV27SA25";
+        public const string PROVIDED_TOKEN = "0Wl9d5diXMV6wjT8LTMR0YqfCeaVMOl4o3o6Xf+thotASepkb7F2wK9OAimAPJxCFFokgMfakqG/1gq8kFqk7NT2krR/Q52/OXHr1dZP0WWdq1Vfxus4iP2cqsJiD1IzoATpS34h1JDd0gtlfBxtyg==";
         public const string CLIENT_IP = "131.72.230.116";
-        public const int PAGE_RECORDS = 20;
+        public const int PAGE_RECORDS = 1000;
         public const int PAG_NUMBER = 0;
         public const bool GET_ALL_RECORDS = false;
         public const bool ONLINE_TRX = false;
+        public const int VECES_UTILIZADAS = 99;
     }
 
     public partial class Producto
@@ -69,6 +71,16 @@ namespace mlDieselWS
         public const int ANULADA = 13;
         public const int VENCIDA = 14;
         public const int NO_DEFINIDO = 19;
+    }
+
+    public partial class NotaValeSubEstatus
+    {
+        public const int SUB_EN_ESPERA = 29;
+        public const int SUB_EN_USO = 21;
+        public const int SUB_PENDIENTE_ANULAR = 23;
+        public const int SUB_ANULADA_CON_CONSUMO = 24;
+        public const int SUB_ANULADA_SIN_CONSUMO = 25;
+        public const int SUB_VENCIDA = 22;        
     }
 
     public partial class OrderStatusIdentification

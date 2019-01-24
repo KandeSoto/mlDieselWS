@@ -25,8 +25,8 @@ namespace mlDieselWS
             InitializeComponent();
             Process = new Timer();
             EnergexService = new SP4GLwsService();           
-            //Process.Interval = Configuration.TIME * Convert.ToInt32(TimeAppConfig);
-            Process.Interval = Configuration.TIME * 1;
+           // Process.Interval = Configuration.TIME * Convert.ToInt32(TimeAppConfig);
+            Process.Interval = Configuration.TIME * 0.1;
             Process.Elapsed += Process_Elapsed;
         }
 
@@ -43,7 +43,7 @@ namespace mlDieselWS
             {
                 Process.Enabled = true;
                 Process.Start();
-                EventLog.WriteEntry("Se inicia el proceso energex.", EventLogEntryType.Information);
+                EventLog.WriteEntry("Se inicia el proceso de los Servicios.", EventLogEntryType.Information);
             }
             catch (Exception ex)
             {
@@ -56,10 +56,11 @@ namespace mlDieselWS
         {
             Process.Enabled = false;
             EventLog.WriteEntry("Inicia la ejecucion del proceso de autorizaciones.", EventLogEntryType.Information);
-            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
             ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);-- No se ejecutara porque afecta lo web con el cambio de ruta
-            ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);            
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+            //ExecuteProcess(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
             EventLog.WriteEntry("Se reinicia el proceso.", EventLogEntryType.Information);
             Process.Enabled = true;
         }
@@ -68,8 +69,8 @@ namespace mlDieselWS
         {
             EnergexProcess(Estatus);
 
-            if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)            
-                TickeCarProcess(); 
+            //if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)
+            //    TickeCarProcess();
         }        
 
         public EnergexAuthorizationList GetEnergexClass(string fila)
@@ -210,8 +211,7 @@ namespace mlDieselWS
             {
                 EnergexBLL Ejecution = new EnergexBLL();
 
-                //DateTime DateStart = Ejecution.GetStarDate();
-                DateTime DateStart = DateTime.Now.AddDays(-1);
+                DateTime DateStart = Ejecution.GetStarDate();                    
                 DateTime DateEnd = DateTime.Now.AddHours(2);
                 string Parametro = "";
 
@@ -248,6 +248,12 @@ namespace mlDieselWS
                             }
                         }
 
+                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_VALIDAS)
+                        {
+                            int Result = Ejecution.ValidateAuthorizationProcess(ObjList);
+                            LogStatusProcess(Result, "Totales");
+                        }
+
                         if (Estatus == AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD)
                         {
                             int Result = Ejecution.TotalAuthorizationProcess(ObjList);
@@ -265,6 +271,12 @@ namespace mlDieselWS
                             int Result = Ejecution.PartialAuthorizationProcess(ObjPartialList);
                             LogStatusProcess(Result, "Parciales");
                         }
+
+                        if (Estatus == AuthorizationStatus.AUTORIZACIONES_VENCIDAS)
+                        {
+                            int Result;
+                        }
+
                     }
                     else if (HasError[0] == ServiceState.SERVICE_NULL)
                         EventLog.WriteEntry("El servicio contiene un listado vacio", EventLogEntryType.Information);
@@ -287,8 +299,8 @@ namespace mlDieselWS
             {
                 TicketCarBLL Ejecution = new TicketCarBLL();
 
-                DateTime DateStart = Ejecution.GetStarDate();
-                DateTime DateEnd = DateTime.Now.AddHours(2);
+                DateTime DateStart = Ejecution.GetStarDate();                
+                DateTime DateEnd = DateTime.Now.AddHours(2);                
             
                 int Result = Ejecution.TicketCarProcess(DateStart, DateEnd);
                 LogStatusProcess(Result, "TicketCar");               

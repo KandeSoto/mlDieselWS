@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Requests" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions.Requests" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" />
-  <xs:import schemaLocation="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
-  <xs:complexType name="TransactionDTORequest">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Merchandise.Responses" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Merchandise.Responses" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" />
+  <xs:import schemaLocation="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" />
+  <xs:complexType name="MerchandiseListDTOResponse">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" minOccurs="0" name="Item" nillable="true" type="q1:TransactionDTO" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Paging" nillable="true" type="q2:PagingDTO" />
-      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Security" nillable="true" type="q3:SecurityDTO" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="ErrorList" nillable="true" type="q1:ArrayOfErrorDTO" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Transactions" minOccurs="0" name="List" nillable="true" type="q2:ArrayOfMerchandiseDTO" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ERMX.SSOServices.TicketCar.Entities.Common" minOccurs="0" name="Paging" nillable="true" type="q3:PagingDTO" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="TransactionDTORequest" nillable="true" type="tns:TransactionDTORequest" />
+  <xs:element name="MerchandiseListDTOResponse" nillable="true" type="tns:MerchandiseListDTOResponse" />
 </xs:schema>

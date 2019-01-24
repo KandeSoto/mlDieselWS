@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="HgSYVb23vzrDPhqFOtpgca6taoQ=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="ZRdLuBxddRrM/PKWOp9RClvFJRM=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_ITicketCarFacadeServices">
       <properties>
@@ -221,10 +221,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_ITicketCarFacadeServices" contract="TicketCardService.ITicketCarFacadeServices" bindingType="basicHttpBinding" address="http://saedrmex01web27.lanet.accorservices.net/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc" bindingConfiguration="BasicHttpBinding_ITicketCarFacadeServices">
+    <endpoint name="BasicHttpBinding_ITicketCarFacadeServices" contract="TicketCardService.ITicketCarFacadeServices" bindingType="basicHttpBinding" address="http://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc" bindingConfiguration="BasicHttpBinding_ITicketCarFacadeServices">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://saedrmex01web27.lanet.accorservices.net/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc</serializedValue>
+          <serializedValue>http://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -306,10 +306,10 @@
         </property>
       </properties>
     </endpoint>
-    <endpoint name="BasicHttpsBinding_ITicketCarFacadeServices" contract="TicketCardService.ITicketCarFacadeServices" bindingType="basicHttpBinding" address="https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc" bindingConfiguration="BasicHttpsBinding_ITicketCarFacadeServices">
+    <endpoint name="BasicHttpsBinding_ITicketCarFacadeServices" contract="TicketCardService.ITicketCarFacadeServices" bindingType="basicHttpBinding" address="https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc" bindingConfiguration="BasicHttpsBinding_ITicketCarFacadeServices">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>https://demo.edenred.com.mx/Homologacion/ExternalTicketCar/TicketCarServicesFacade.svc</serializedValue>
+          <serializedValue>https://services.edenred.com.mx/ExternalTicketCar/TicketCarServicesFacade.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

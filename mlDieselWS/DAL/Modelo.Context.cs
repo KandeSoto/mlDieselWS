@@ -12,6 +12,8 @@ namespace mlDieselWS.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class CombustibleEntities : DbContext
     {
@@ -25,11 +27,27 @@ namespace mlDieselWS.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AutorizacionesEnergex> AutorizacionesEnergex { get; set; }
         public virtual DbSet<AutorizacionesParcialesEnergex> AutorizacionesParcialesEnergex { get; set; }
+        public virtual DbSet<LitrosCargados> LitrosCargados { get; set; }
         public virtual DbSet<SolicitudDeposito> SolicitudDeposito { get; set; }
         public virtual DbSet<EmpleadoEnergex> EmpleadoEnergex { get; set; }
-        public virtual DbSet<LitrosCargados> LitrosCargados { get; set; }
         public virtual DbSet<SolicitudDepositoTraficoDiesel> SolicitudDepositoTraficoDiesel { get; set; }
+        public virtual DbSet<AutorizacionesEnergex> AutorizacionesEnergex { get; set; }
+        public virtual DbSet<SolicitudDepositoComplemento> SolicitudDepositoComplemento { get; set; }
+        public virtual DbSet<SolicitudDepositoTrafico> SolicitudDepositoTrafico { get; set; }
+    
+        public virtual int CancelarSolicitudDispensario(Nullable<int> solicitudDepositoId)
+        {
+            var solicitudDepositoIdParameter = solicitudDepositoId.HasValue ?
+                new ObjectParameter("SolicitudDepositoId", solicitudDepositoId) :
+                new ObjectParameter("SolicitudDepositoId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CancelarSolicitudDispensario", solicitudDepositoIdParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerListaSolicitudDispensarioActivas_Result> ObtenerListaSolicitudDispensarioActivas()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerListaSolicitudDispensarioActivas_Result>("ObtenerListaSolicitudDispensarioActivas");
+        }
     }
 }

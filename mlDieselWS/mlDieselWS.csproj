@@ -125,12 +125,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Modelo.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ObtenerListaSolicitudDispensarioActivas_Result.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\SolicitudDeposito.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SolicitudDepositoComplemento.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SolicitudDepositoTrafico.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\SolicitudDepositoTraficoDiesel.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="DispensarioBLL.cs" />
     <Compile Include="EnergexBLL.cs" />
     <Compile Include="EnergexAuthorizationList.cs" />
     <Compile Include="EnergexPartialAuthorizationList.cs" />

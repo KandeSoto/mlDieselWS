@@ -22,146 +22,189 @@ namespace mlDieselWS
         {
             int Result;
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
-            {
+            {                
                 try
                 {
                     Result =  StatusProcess.SoloEjecutoProceso;
                     foreach (var item in List)
-                    {
-                        int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-                        var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();                        
-
-                        if (LitrosCargados != null && LitrosCargados.FolioEnergex != null)
+                    {                                                                                                               
+                        if (item.orden != null)
                         {                            
-                            LitrosCargados.LitrosCargados1 = Convert.ToDecimal(item.Litres.Trim());
-                            decimal? LitrosRestantes = LitrosCargados.LitrosSolicitados - LitrosCargados.LitrosCargados1;
+                            int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                            var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();
 
-                            if (LitrosRestantes <= 0)
+                            if (LitrosCargados != null)
                             {
-                                LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-                                Result = StatusProcess.EnvioTotal;
-                            }
-                            else
-                            {                                
-                                int? NumEmpleadoMexLog = db.EmpleadoEnergex.Where(w => w.NumEmpleadoEnergex == LitrosCargados.NumeroEmpleadoEnergex).Select(s => s.NumEmpleadoMexLog).FirstOrDefault();
-                                string NumEmpleadoEnergex = LitrosCargados.NumeroEmpleadoEnergex;
-                                LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);                                
-                                string Folio = db.LitrosCargados.OrderByDescending(o => o.FolioEnergex).Select(s => s.FolioEnergex).Take(1).FirstOrDefault();
-                                Folio = FolioGenerator(Folio);
-                                DateTime FechaVencimiento = DateTime.Now.AddDays(Configuration.ExpirationDays);
+                                LitrosCargados.LitrosCargados1 = Convert.ToDecimal(item.Litres.Trim());
+                                decimal? LitrosRestantes = LitrosCargados.LitrosSolicitados - LitrosCargados.LitrosCargados1;
 
-                                string Comentario = Configuration.COMMENT + Folio + ".";
-
-                                SP4GLwsService Servicio = new SP4GLwsService();                                
-                                string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + NumEmpleadoEnergex + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;"+item.fkIdProduct+";Comentario;" + Comentario + ";";                                
-                                var response = Servicio.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, request);
-
-                                if (response != string.Empty)
+                                if (LitrosRestantes <= 1)
                                 {
-                                    var registro = response.Split(';');
-                                    int arrayIndex = 0;
-                                    if (registro[arrayIndex] == "0")
-                                    {
-                                        LitrosCargados Cargados = new LitrosCargados();
-
-                                        if (LitrosCargados.SolicitudDepositoId != null)
-                                            Cargados.SolicitudDepositoId = LitrosCargados.SolicitudDepositoId;
-
-                                        if (LitrosCargados.SolicitudDepositoTraficoId != null)
-                                            Cargados.SolicitudDepositoTraficoId = LitrosCargados.SolicitudDepositoTraficoId;
-
-                                        if (LitrosCargados.MovimientoExternoId != null)
-                                            Cargados.MovimientoExternoId = LitrosCargados.MovimientoExternoId;
-
-                                        Cargados.FolioEnergex = Folio;
-                                        Cargados.LitrosSolicitados = LitrosRestantes;
-                                        Cargados.LitrosCargados1 = 0;
-                                        Cargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-                                        Cargados.NumeroEmpleadoEnergex = NumEmpleadoEnergex;
-                                        Cargados.FechaRegistro = DateTime.Now;
-
-                                        db.LitrosCargados.Add(Cargados);
-                                        db.SaveChanges();
-
-                                        bool Cancelo = CancelationProcess(item.orden.Trim(), NumEmpleadoMexLog);
-
-                                        if (Cancelo)
-                                            Result = StatusProcess.EnvioAutorizacion;
-                                        else                                        
-                                            Result = StatusProcess.EnvioAutorizacionErrorCancelar;
-                                    }
-                                    else
-                                    {
-                                        throw new ArgumentException("Error: "+registro[1]+" Codigo: "+ registro[arrayIndex]);
-                                    }
+                                    LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
+                                    Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
+                                    Result = StatusProcess.EnvioTotal;
                                 }
                                 else
                                 {
-                                    throw new ArgumentException("No fue posible enviar autorizacion");
+                                    int? NumEmpleadoMexLog = db.EmpleadoEnergex.Where(w => w.NumEmpleadoEnergex == LitrosCargados.NumeroEmpleadoEnergex).Select(s => s.NumEmpleadoMexLog).FirstOrDefault();
+                                    string NumEmpleadoEnergex = LitrosCargados.NumeroEmpleadoEnergex;
+                                    LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
+                                    string Folio = db.LitrosCargados.OrderByDescending(o => o.FolioEnergex).Select(s => s.FolioEnergex).Take(1).FirstOrDefault();
+                                    Folio = FolioGenerator(Folio);
+                                    DateTime FechaVencimiento = DateTime.Now.AddDays(Configuration.ExpirationDays);
+
+                                    string Comentario = string.Empty;
+
+                                    if (LitrosCargados.SolicitudDepositoId != null)
+                                    {
+                                        int numeroviaje = 0;
+                                        numeroviaje = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId)
+                                                .Select(s => s.ClaveCarga).FirstOrDefault();
+
+                                        Comentario = Configuration.COMMENT + numeroviaje + ".";
+                                    }
+
+                                    if (LitrosCargados.SolicitudDepositoTraficoId != null)
+                                    {
+                                        string FolioOrden = string.Empty;
+                                        int Id = 0;
+
+                                            Id = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId)
+                                                .Select(s => s.SolicitudDepositoId).FirstOrDefault();
+
+                                            FolioOrden = db.SolicitudDepositoTrafico.Where(w => w.SolicitudDepositoId == Id)
+                                            .Select(s => s.FolioOrden).FirstOrDefault();
+
+                                        Comentario = Configuration.COMMENT + FolioOrden + ".";
+                                    }
+
+                                    if (LitrosCargados.SolicitudDepositoComplementoId != null)
+                                    {                                            
+                                        int Id = 0;
+                                        int clavecarga = 0;
+
+                                        Id = db.SolicitudDepositoComplemento.Where(w => w.SolicitudDepositoComplementoId == LitrosCargados.SolicitudDepositoComplementoId)
+                                                .Select(s => s.SolicitudDepositoId).FirstOrDefault();
+                                            
+                                        clavecarga = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == Id)
+                                            .Select(s => s.ClaveCarga).FirstOrDefault();
+
+                                        Comentario = Configuration.COMMENT + clavecarga + ".";
+                                    }
+
+                                    if (LitrosCargados.MovimientoExternoId != null)
+                                    {
+                                        Comentario = "Se realizo autorizacion de combustible desdes el sistema, Movimiento Externo con Folio: "+Folio;
+                                    }
+
+                                    SP4GLwsService Servicio = new SP4GLwsService();
+                                    string request = "com.spinvent.gascard.dbobj.Txnenquirymaxload;registro_autorizacion;Cliente;" + Configuration.USERNAME + ";Contraseña;" + Configuration.PASS + ";usuario_energex;" + NumEmpleadoEnergex + ";Litros;" + Convert.ToString(LitrosRestantes) + ";Folio;" + Folio + ";Estacion;;FechaValidez;" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", FechaVencimiento) + ";usuario_cliente;" + Convert.ToString(NumEmpleadoMexLog) + ";Producto;" + item.fkIdProduct + ";Comentario;" + Comentario + ";";
+                                    var response = Servicio.executeProcedureDevice(Configuration.USERNAME, Configuration.PASS, Configuration.DEVICE, request);
+
+                                    if (response != string.Empty)
+                                    {
+                                        var registro = response.Split(';');
+                                        int arrayIndex = 0;
+                                        if (registro[arrayIndex] == "0")
+                                        {
+                                            LitrosCargados Cargados = new LitrosCargados();
+
+                                            if (LitrosCargados.SolicitudDepositoId != null)
+                                                Cargados.SolicitudDepositoId = LitrosCargados.SolicitudDepositoId;
+
+                                            if (LitrosCargados.SolicitudDepositoTraficoId != null)
+                                                Cargados.SolicitudDepositoTraficoId = LitrosCargados.SolicitudDepositoTraficoId;
+
+                                            if (LitrosCargados.MovimientoExternoId != null)
+                                                Cargados.MovimientoExternoId = LitrosCargados.MovimientoExternoId;
+
+                                            Cargados.FolioEnergex = Folio;
+                                            Cargados.LitrosSolicitados = LitrosRestantes;
+                                            Cargados.LitrosCargados1 = 0;
+                                            Cargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                                            Cargados.NumeroEmpleadoEnergex = NumEmpleadoEnergex;
+                                            Cargados.FechaRegistro = DateTime.Now;
+
+                                            db.LitrosCargados.Add(Cargados);
+                                            db.SaveChanges();
+
+                                            bool Cancelo = CancelationProcess(item.orden.Trim(), NumEmpleadoMexLog);
+
+                                            if (Cancelo)
+                                                Result = StatusProcess.EnvioAutorizacion;
+                                            else
+                                                Result = StatusProcess.EnvioAutorizacionErrorCancelar;
+                                        }
+                                        else
+                                        {
+                                            //throw new ArgumentException("Error: " + registro[1] + " Codigo: " + registro[arrayIndex]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //throw new ArgumentException("No fue posible enviar autorizacion");
+                                    }
+
                                 }
 
-                            }
+                                if (LitrosCargados.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
+                                {
 
-                            if (LitrosCargados.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-                            {
+                                    var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
 
-                                var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
+                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
+                                        solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
 
-                                if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                    solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
+                                    db.Entry(solicitud).State = EntityState.Modified;
+                                    db.SaveChanges();
 
-                                db.Entry(solicitud).State = EntityState.Modified;
+                                }
+
+                                if (LitrosCargados.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
+                                {
+                                    var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
+
+                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
+                                        solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
+
+                                    db.Entry(solicitudDiesel).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+
+
+                                db.Entry(LitrosCargados).State = EntityState.Modified;
+                                db.SaveChanges();
+
+                                AutorizacionesParcialesEnergex Log = new AutorizacionesParcialesEnergex();
+
+                                Log.idTxnPurchaseCashCard = item.idTxnPurchaseCashCard.Trim();
+                                Log.Date = item.Date;
+                                Log.fkIdMerchant = item.fkIdMerchant.Trim();
+                                Log.fkIdTerminal = item.fkIdTerminal.Trim();
+                                Log.fkIdProduct = item.fkIdProduct.Trim();
+                                Log.Amount = item.Amount.Trim();
+                                Log.LicensePlate = item.LicensePlate.Trim();
+                                Log.Litres = item.Litres.Trim();
+                                Log.Kms = item.Kms.Trim();
+                                Log.ProductUnitPrice = item.ProductUnitPrice.Trim();
+                                Log.AuthNum = item.AuthNum.Trim();
+                                Log.orden = item.orden.Trim();
+
+                                db.AutorizacionesParcialesEnergex.Add(Log);
                                 db.SaveChanges();
 
                             }
-
-                            if (LitrosCargados.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-                            {
-                                var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
-
-                                if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                    solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
-
-                                db.Entry(solicitudDiesel).State = EntityState.Modified;
-                                db.SaveChanges();
-                            }
-
-
-                            db.Entry(LitrosCargados).State = EntityState.Modified;
-                            db.SaveChanges();
-
-                            AutorizacionesParcialesEnergex Log = new AutorizacionesParcialesEnergex();
-
-                            Log.idTxnPurchaseCashCard = item.idTxnPurchaseCashCard.Trim();
-                            Log.Date = item.Date;
-                            Log.fkIdMerchant = item.fkIdMerchant.Trim();
-                            Log.fkIdTerminal = item.fkIdTerminal.Trim();
-                            Log.fkIdProduct = item.fkIdProduct.Trim();
-                            Log.Amount = item.Amount.Trim();
-                            Log.LicensePlate = item.LicensePlate.Trim();
-                            Log.Litres = item.Litres.Trim();
-                            Log.Kms = item.Kms.Trim();
-                            Log.ProductUnitPrice = item.ProductUnitPrice.Trim();
-                            Log.AuthNum = item.AuthNum.Trim();
-                            Log.orden = item.orden.Trim();
-
-                            db.AutorizacionesParcialesEnergex.Add(Log);
-                            db.SaveChanges();
-
-                        }
-                        //else
-                        //    throw new ArgumentException("Folio Energex viene vacio");
-
+                            //else
+                            //    throw new ArgumentException("Folio Energex viene vacio");
+                        }                        
                     }
 
                     transaction.Commit();
                     return Result;
                 }
-                catch (Exception)
-                {
+                catch (Exception ex)
+                {                    
                     transaction.Rollback();
-
                     Result = StatusProcess.Error;
                     return Result;
                 }
@@ -178,30 +221,26 @@ namespace mlDieselWS
                     Result = StatusProcess.SoloEjecutoProceso;
                     foreach (var item in List)
                     {
-                        var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim()).FirstOrDefault();
+                        int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                        var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();
 
-                        if (LitrosCargados != null && LitrosCargados.FolioEnergex != null)
+                        if (LitrosCargados != null)
                         {                            
                             LitrosCargados.LitrosCargados1 = Convert.ToDecimal(item.MaxLitres.Trim());
                             decimal? LitrosRestantes = LitrosCargados.LitrosSolicitados - LitrosCargados.LitrosCargados1;
 
                             if (LitrosRestantes <= 0)                            
-                                LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);                            
-                            else
-                                throw new ArgumentException("El folio "+ LitrosCargados.FolioEnergex + " energex no es una autorizacion en su totalidad");
-
+                                LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD); 
 
                             if (LitrosCargados.SolicitudDepositoId != null && LitrosCargados.Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
                             {
-
                                 var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
 
                                 if (LitrosCargados.Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                    solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
+                                    solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
 
                                 db.Entry(solicitud).State = EntityState.Modified;
                                 db.SaveChanges();
-
                             }
 
                             if (LitrosCargados.SolicitudDepositoTraficoId != null && LitrosCargados.Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
@@ -209,7 +248,7 @@ namespace mlDieselWS
                                 var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
 
                                 if (LitrosCargados.Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                    solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.TERMINADO;
+                                    solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
 
                                 db.Entry(solicitudDiesel).State = EntityState.Modified;
                                 db.SaveChanges();
@@ -228,16 +267,14 @@ namespace mlDieselWS
                             Log.MaxLitres = item.MaxLitres.Trim();
                             Log.vehicle = item.vehicle.Trim();
                             Log.comment = item.comment.Trim();
+                            Log.Estatus = "TOTALIZADA";
 
                             db.AutorizacionesEnergex.Add(Log);
                             db.SaveChanges();
 
                             Result = StatusProcess.EnvioTotal;
 
-                        }
-                        //else
-                        //    throw new ArgumentException("Folio Energex viene vacio");
-
+                        }                        
                     }
 
                     transaction.Commit();
@@ -262,9 +299,10 @@ namespace mlDieselWS
                     Result = StatusProcess.SoloEjecutoProceso;
                     foreach (var item in List)
                     {
-                        var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim()).FirstOrDefault();
+                        int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                        var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();
 
-                        if (LitrosCargados != null && LitrosCargados.FolioEnergex != null)
+                        if (LitrosCargados != null)
                         {                            
                             LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);                                                       
 
@@ -281,22 +319,139 @@ namespace mlDieselWS
                             Log.MaxLitres = item.MaxLitres.Trim();
                             Log.vehicle = item.vehicle.Trim();
                             Log.comment = item.comment.Trim();
+                            Log.Estatus = "AUTORIZACION CANCELADA (PLATAFORMA)";
 
                             db.AutorizacionesEnergex.Add(Log);
                             db.SaveChanges();
 
                             Result = StatusProcess.EnvioTotal;
 
-                        }
-                        //else
-                        //    throw new ArgumentException("Folio Energex viene vacio");
-
+                        }                        
                     }
 
                     transaction.Commit();
                     return Result;
                 }
                 catch (Exception)
+                {
+                    transaction.Rollback();
+                    Result = StatusProcess.Error;
+                    return Result;
+                }
+            }
+        }
+
+        public int ValidateAuthorizationProcess(List<EnergexAuthorizationList> List)
+        {
+            int Result;
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Result = StatusProcess.SoloEjecutoProceso;
+                    foreach (var item in List)
+                    {
+                        if (item.orden != null)
+                        {
+                            int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                            var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();
+
+                            if (LitrosCargados != null && LitrosCargados.FolioEnergex != null)
+                            {
+                                TimeSpan ts = DateTime.Now - LitrosCargados.FechaRegistro.Value;
+
+                                if (ts.Days > Configuration.ExpirationDays)
+                                {
+                                    int? NumEmpleadoMexLog = db.EmpleadoEnergex.Where(w => w.NumEmpleadoEnergex == LitrosCargados.NumeroEmpleadoEnergex).Select(s => s.NumEmpleadoMexLog).FirstOrDefault();
+                                    bool canceloautorizacion = CancelationProcess(item.orden.Trim(), NumEmpleadoMexLog);
+
+                                    if (canceloautorizacion)
+                                    {
+                                        LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+
+                                        db.Entry(LitrosCargados).State = EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        AutorizacionesEnergex Log = new AutorizacionesEnergex();
+
+                                        Log.idTxnEnquiryMaxLoad = item.idTxnEnquiryMaxLoad.Trim();
+                                        Log.Date = item.Date;
+                                        Log.fkIdMerchant = item.fkIdMerchant.Trim();
+                                        Log.group_member = item.group_member.Trim();
+                                        Log.orden = item.orden.Trim();
+                                        Log.MaxLitres = item.MaxLitres.Trim();
+                                        Log.vehicle = item.vehicle.Trim();
+                                        Log.comment = item.comment.Trim();
+                                        Log.Estatus = "VALIDA VENCIDA";
+
+                                        db.AutorizacionesEnergex.Add(Log);
+                                        db.SaveChanges();
+
+                                        Result = StatusProcess.EnvioTotal;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                    return Result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Result = StatusProcess.Error;
+                    return Result;
+                }
+            }
+        }
+
+        public int VencidasAuthorizationProcess(List<EnergexAuthorizationList> List)
+        {
+            int Result;
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Result = StatusProcess.SoloEjecutoProceso;
+                    foreach (var item in List)
+                    {
+                        if (item.orden != null)
+                        {
+                            int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+                            var LitrosCargados = db.LitrosCargados.Where(w => w.FolioEnergex == item.orden.Trim() && w.Estatus == Estatus).FirstOrDefault();
+
+                            if (LitrosCargados != null)
+                            {                                                                                                                                      
+                                LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
+
+                                db.Entry(LitrosCargados).State = EntityState.Modified;
+                                db.SaveChanges();
+
+                                AutorizacionesEnergex Log = new AutorizacionesEnergex();
+
+                                Log.idTxnEnquiryMaxLoad = item.idTxnEnquiryMaxLoad.Trim();
+                                Log.Date = item.Date;
+                                Log.fkIdMerchant = item.fkIdMerchant.Trim();
+                                Log.group_member = item.group_member.Trim();
+                                Log.orden = item.orden.Trim();
+                                Log.MaxLitres = item.MaxLitres.Trim();
+                                Log.vehicle = item.vehicle.Trim();
+                                Log.comment = item.comment.Trim();
+                                Log.Estatus = "AUTORIZACION VENCIDA";
+
+                                db.AutorizacionesEnergex.Add(Log);
+                                db.SaveChanges();
+
+                                Result = StatusProcess.EnvioTotal;                                                                    
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                    return Result;
+                }
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     Result = StatusProcess.Error;
