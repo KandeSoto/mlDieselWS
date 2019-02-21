@@ -1,6 +1,7 @@
 ﻿using mlDieselWS.DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -17,151 +18,119 @@ namespace mlDieselWS
             db = new CombustibleEntities();
         }
 
-        //public int DispensarioProcess()
-        //{
-        //    #region DispensarioProcess
-        //    int Result;
-        //    using (DbContextTransaction transaction = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            Result = StatusProcess.SoloEjecutoProceso;
+        public int DispensarioProcess()
+        {
+            #region DispensarioProcess
+            int Result;
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Result = StatusProcess.INICIOPROCESO;
 
-        //            List<ObtenerListaSolicitudDispensarioActivas_Result> ListaDispensario = ObtenerListadoDispensario();
+                    List<ObtenerListaSolicitudDispensarioActivas_Result> ListaDispensario = ObtenerListadoDispensario();
 
-        //            if (ListaDispensario != null)
-        //            {
-        //                foreach (var item in ListaDispensario)
-        //                {
-        //                    int EstatusLitros = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-        //                    var LitrosCargados = db.LitrosCargados.Where(w => w.OrdenIdentificadorTicket == item).FirstOrDefault();
+                    if (ListaDispensario != null)
+                    {
+                        foreach (var item in ListaDispensario)
+                        {
+                            if (item.SolicitudDepositoId.HasValue)
+                            {
+                                var LitrosCargados = db.LitrosCargados.Where(w => w.SolicitudDepositoId == item.SolicitudDepositoId).FirstOrDefault();
 
-        //                    if (LitrosCargados != null)
-        //                    {
-        //                        Tuple<int, int> EstatusTupla = ObtenerEstatusOrdenNotaVale(item);
-        //                        int Estatus = 0;
+                                if (LitrosCargados != null)
+                                {
+                                    TimeSpan ts = DateTime.Now - LitrosCargados.FechaRegistro.Value;
 
-        //                        if (EstatusTupla.Item1 != 0)
-        //                        {
-        //                            Tuple<bool, decimal> Transaccion = new Tuple<bool, decimal>(true, 0);
+                                    if (ts.Days >= Configuration.ExpirationDays)
+                                    {
+                                        LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
 
-        //                            if (EstatusTupla.Item1 != 13)
-        //                            {
-        //                                Transaccion = ObtenerListadoTransacciones(Star, End, LitrosCargados.NumeroTarjetaTicket, LitrosCargados.IdentificadorTicket.Value);
+                                        db.Entry(LitrosCargados).State = EntityState.Modified;
+                                        db.SaveChanges();
 
-        //                                if (Transaccion.Item1 == true && Transaccion.Item2 <= 0)
-        //                                    Transaccion = new Tuple<bool, decimal>(false, 0);
-        //                            }
+                                        db.CancelarSolicitudDispensarioServicio(item.DepositosDieselId);
+                                        Result = StatusProcess.INICIOPROCESO;
+                                    }
+                                }
+                            }
+                            else if (item.SolicitudDepositoComplementoId.HasValue)
+                            {
+                                var LitrosCargados = db.LitrosCargados.Where(w => w.SolicitudDepositoComplementoId == item.SolicitudDepositoComplementoId).FirstOrDefault();
 
-        //                            if (Transaccion.Item1 != false)
-        //                            {
-        //                                switch (EstatusTupla.Item1)
-        //                                {
-        //                                    case NotaValeEstatus.EN_ESPERA:
-        //                                        switch (EstatusTupla.Item2)
-        //                                        {
-        //                                            case NotaValeSubEstatus.SUB_EN_ESPERA:
-        //                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-        //                                                break;
-        //                                            case NotaValeSubEstatus.SUB_EN_USO:
-        //                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-        //                                                break;
-        //                                            case NotaValeSubEstatus.SUB_PENDIENTE_ANULAR:
-        //                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
-        //                                                break;
-        //                                        }
-        //                                        break;
-        //                                    case NotaValeEstatus.USADA:
-        //                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-        //                                        break;
-        //                                    case NotaValeEstatus.ANULADA:
-        //                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
-        //                                        break;
-        //                                    case NotaValeEstatus.VENCIDA:
-        //                                        if (Transaccion.Item2 > 0)
-        //                                            Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
-        //                                        else
-        //                                            Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
-        //                                        break;
-        //                                }
+                                if (LitrosCargados != null)
+                                {
+                                    TimeSpan ts = DateTime.Now - LitrosCargados.FechaRegistro.Value;
 
-        //                                if (LitrosCargados.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-        //                                {
+                                    if (ts.Days >= Configuration.ExpirationDays)
+                                    {
+                                        LitrosCargados.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
 
-        //                                    var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
+                                        db.Entry(LitrosCargados).State = EntityState.Modified;
+                                        db.SaveChanges();
 
-        //                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-        //                                        solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
+                                        db.CancelarSolicitudDispensarioServicio(item.DepositosDieselId);
+                                        Result = StatusProcess.INICIOPROCESO;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                TimeSpan ts = DateTime.Now - item.fechaDepositoUTC;
 
-        //                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
-        //                                        solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
+                                if (ts.Days >= Configuration.ExpirationDays)
+                                {
+                                    db.CancelarSolicitudDispensarioServicio(item.DepositosDieselId);
+                                    Result = StatusProcess.INICIOPROCESO;
+                                }
+                            }
+                        }
+                    }
 
-        //                                    db.Entry(solicitud).State = EntityState.Modified;
-        //                                    db.SaveChanges();
-
-        //                                }
-
-        //                                if (LitrosCargados.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-        //                                {
-        //                                    var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
-
-        //                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-        //                                        solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
-
-        //                                    if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
-        //                                        solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
-
-        //                                    db.Entry(solicitudDiesel).State = EntityState.Modified;
-        //                                    db.SaveChanges();
-
-        //                                }
-
-
-        //                                LitrosCargados.LitrosCargados1 = Transaccion.Item2;
-        //                                LitrosCargados.Estatus = Estatus;
-
-        //                                db.Entry(LitrosCargados).State = EntityState.Modified;
-        //                                db.SaveChanges();
-
-        //                                Result = StatusProcess.EnvioTicketCar;
-        //                            }
-        //                        }
-
-        //                    }
-        //                }
-        //            }
-
-        //            transaction.Commit();
-        //            return Result;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            transaction.Rollback();
-
-        //            Result = StatusProcess.Error;
-        //            return Result;
-        //        }
-        //    }
-        //    #endregion
-        //}
+                    transaction.Commit();
+                    return Result;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    EnviarCorreoError(ex.Message, "Problemas Autorizaciones Vencidas Dispensario");
+                    Result = StatusProcess.ERROR;
+                    return Result;
+                }
+            }
+            #endregion
+        }
 
         private List<ObtenerListaSolicitudDispensarioActivas_Result> ObtenerListadoDispensario()
         {
-            #region ObtenerListadoDispensario
-            List<ObtenerListaSolicitudDispensarioActivas_Result> ListaDispesario = new List<ObtenerListaSolicitudDispensarioActivas_Result>();
+            #region ObtenerListadoDispensario            
 
             try
             {
-                ListaDispesario = db.ObtenerListaSolicitudDispensarioActivas().ToList();
+                var ListaDispesario = db.ObtenerListaSolicitudDispensarioActivas().ToList();
+                return ListaDispesario;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-
-            return ListaDispesario;
+            }            
 
             #endregion
+        }
+
+        private void EnviarCorreoError(string Error, string TipoAutorizacion)
+        {
+            Mail email = new Mail();
+
+            string Subject = "Alerta Error Servicio Combustible";
+            string destinatario = ConfigurationManager.AppSettings["EmailDestino"];
+
+            string msj = "<h2>Alerta se detecto un error en el Servicio de Combustibles</h2>"
+                       + "<p>En el proceso: " + TipoAutorizacion + "</p>"
+                       + "<p>Error: " + Error + "</p>"
+                       + "<p>Fecha: " + DateTime.Now.ToString() + "</p>";
+
+            bool envio = email.SendMail(destinatario, Subject, msj);
         }
     }
 }

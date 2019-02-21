@@ -2,6 +2,7 @@
 using mlDieselWS.TicketCardService;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -16,9 +17,9 @@ namespace mlDieselWS
         public TicketCarBLL()
         {
             db = new CombustibleEntities();
-        }
+        }        
 
-        public int TicketCarProcess(DateTime Star, DateTime End)
+        public int TicketCarProcess(string NotaEstatus)
         {
             #region TicketCarProcess
             int Result;
@@ -26,117 +27,95 @@ namespace mlDieselWS
             {
                 try
                 {
-                    Result = StatusProcess.SoloEjecutoProceso;
+                    Result = StatusProcess.INICIOPROCESO;                    
 
-                    List<int> ListaOrdenes = ObtenerListadoOrdenes(Star, End);
+                    DateTime DateStart = GetStarDate(NotaEstatus);
+                    DateTime DateEnd = DateTime.Now.AddDays(1);
 
-                    if (ListaOrdenes != null)
-                    {
-                        foreach (var item in ListaOrdenes)
+                    int EstatusLitros = Convert.ToInt32(NotaEstatus);
+                    var LitrosCargadosList = db.LitrosCargados.Where(w => w.OrdenIdentificadorTicket != null 
+                    && w.Estatus == EstatusLitros && (w.FechaRegistro >= DateStart && w.FechaRegistro <= DateEnd)).ToList();
+
+                    foreach (var item in LitrosCargadosList)
+                    {                        
+                        if (item != null)
                         {
-                            int EstatusLitros = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-                            var LitrosCargados = db.LitrosCargados.Where(w => w.OrdenIdentificadorTicket == item && w.Estatus == EstatusLitros).FirstOrDefault();
+                            Tuple<int, int> EstatusTupla = ObtenerEstatusOrdenNotaVale(item.OrdenIdentificadorTicket.Value);
+                            int Estatus = 0;
 
-                            if (LitrosCargados != null && LitrosCargados.SolicitudDepositoId == 19912)
-                            {
-                                Tuple<int,int> EstatusTupla = ObtenerEstatusOrdenNotaVale(item);
-                                int Estatus = 0;
-
-                                if (EstatusTupla.Item1 != 0)
+                            if (EstatusTupla.Item1 != 0)
+                            {                                 
+                                if (EstatusTupla.Item2 < ConfigurationTicketCar.VECES_UTILIZADAS)
                                 {
-                                    Tuple<bool, decimal> Transaccion = new Tuple<bool, decimal>(true, 0);
+                                    Tuple<bool, decimal> Transaccion = ObtenerListadoTransacciones(DateStart, DateEnd, item.NumeroTarjetaTicket, item.IdentificadorTicket.Value);
 
-                                    if (EstatusTupla.Item1 != 13 && EstatusTupla.Item2 < ConfigurationTicketCar.VECES_UTILIZADAS)
+                                    if (Transaccion.Item1 == true && Transaccion.Item2 <= 0)
+                                        Transaccion = new Tuple<bool, decimal>(false, 0);
+
+                                    if (Transaccion.Item1 == true)
                                     {
-                                        Transaccion = ObtenerListadoTransacciones(Star, End, LitrosCargados.NumeroTarjetaTicket, LitrosCargados.IdentificadorTicket.Value);
-
-                                        if(Transaccion.Item1 == true && Transaccion.Item2 <= 0)
-                                            Transaccion = new Tuple<bool, decimal>(false, 0);
-                                    }
-
-                                    if (Transaccion.Item1 != false)
-                                    {
-                                        switch (EstatusTupla.Item1)
+                                        if (Transaccion.Item2 == item.LitrosSolicitados)
+                                            Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
+                                        else
                                         {
-                                            case NotaValeEstatus.EN_ESPERA:
-                                                if (EstatusTupla.Item2 < ConfigurationTicketCar.VECES_UTILIZADAS)
-                                                {
-                                                    if(Transaccion.Item2 == LitrosCargados.LitrosSolicitados)
-                                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-                                                    else
-                                                        Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
-                                                }
-                                                else
-                                                {
-                                                    Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
-                                                }                                                                                             
-                                                break;
-                                            case NotaValeEstatus.USADA:
-                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD);
-                                                break;
-                                            case NotaValeEstatus.ANULADA:
+                                            TimeSpan ts = DateTime.Now - item.FechaRegistro.Value;
+                                            if (ts.Days >= Configuration.ExpirationDays || EstatusTupla.Item1 == NotaValeEstatus.VENCIDA)
+                                            {
+                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
+                                            }
+                                            else if (EstatusTupla.Item1 == NotaValeEstatus.ANULADA)
+                                            {
                                                 Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
-                                                break;
-                                            case NotaValeEstatus.VENCIDA:                                               
-                                                    Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
-                                                break;
+                                            }
+                                            else
+                                                Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_PARCIALMENTE);
                                         }
 
-                                        if (LitrosCargados.SolicitudDepositoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-                                        {
+                                        item.LitrosCargados1 = Transaccion.Item2;
+                                        item.Estatus = Estatus;
 
-                                            var solicitud = db.SolicitudDeposito.Where(w => w.SolicitudDepositoId == LitrosCargados.SolicitudDepositoId).FirstOrDefault();
-
-                                            if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                                solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
-
-                                            if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
-                                                solicitud.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
-
-                                            db.Entry(solicitud).State = EntityState.Modified;
-                                            db.SaveChanges();
-
-                                        }
-
-                                        if (LitrosCargados.SolicitudDepositoTraficoId != null && Estatus != Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS))
-                                        {
-                                            var solicitudDiesel = db.SolicitudDepositoTraficoDiesel.Where(w => w.SolicitudDepositoDieselId == LitrosCargados.SolicitudDepositoTraficoId).FirstOrDefault();
-
-                                            if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_UTILIZADAS_TOTALIDAD))
-                                                solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.APROBADO;
-
-                                            if (Estatus == Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS))
-                                                solicitudDiesel.SolicitudDepositoStatusId = SolicitudDepositoStatus.RECHAZADO;
-
-                                            db.Entry(solicitudDiesel).State = EntityState.Modified;
-                                            db.SaveChanges();
-
-                                        }
-
-                                        LitrosCargados.LitrosCargados1 = Transaccion.Item2;
-                                        LitrosCargados.Estatus = Estatus;
-
-                                        db.Entry(LitrosCargados).State = EntityState.Modified;
+                                        db.Entry(item).State = EntityState.Modified;
                                         db.SaveChanges();
 
-                                        Result = StatusProcess.EnvioTicketCar;
+                                        Result = StatusProcess.EJECUTOPROCESO;
                                     }
                                 }
+                                else
+                                {
+                                    TimeSpan ts = DateTime.Now - item.FechaRegistro.Value;
+                                    if (ts.Days >= Configuration.ExpirationDays || EstatusTupla.Item1 == NotaValeEstatus.VENCIDA)
+                                    {
+                                        item.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VENCIDAS);
 
+                                        db.Entry(item).State = EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        Result = StatusProcess.EJECUTOPROCESO;
+                                    }
+                                    else if (EstatusTupla.Item1 == NotaValeEstatus.ANULADA)
+                                    {
+                                        item.Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_CANCELADAS);
+
+                                        db.Entry(item).State = EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        Result = StatusProcess.EJECUTOPROCESO;
+                                    }
+                                }                                
                             }
                         }
                     }
-
+                    
                     transaction.Commit();
                     return Result;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-
-                    Result = StatusProcess.Error;
+                    Result = StatusProcess.ERROR;
+                    EnviarCorreoError(ex.Message, "Autorizaciones Notavale Ticket Car");
                     return Result;
-                }                       
+                }
             }
             #endregion
         }
@@ -173,8 +152,8 @@ namespace mlDieselWS
                     }
                 }
                 else if (response.ErrorList != null && response.ErrorList.Any())
-                {
-                    throw new ArgumentException("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault());
+                {                    
+                    EnviarCorreoError("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault(), "Obtener Listados de Ordenes de Ticket Car");
                 }
             }
             catch (Exception ex)
@@ -189,8 +168,7 @@ namespace mlDieselWS
 
         private Tuple<int,int> ObtenerEstatusOrdenNotaVale(int OrderNumber)
         {
-            #region ObtenerOrdenEstatusNotaVale
-            // int NotaValeEstatus = 0;
+            #region ObtenerOrdenEstatusNotaVale            
             Tuple<int, int> NotaValeEstatus = new Tuple<int, int>(0,0);
             try
             {
@@ -215,8 +193,8 @@ namespace mlDieselWS
                     NotaValeEstatus = new Tuple<int, int>(Convert.ToInt32(response.Item.DetailList.Select(s => s.PreAuthorizationStatusIdentification).FirstOrDefault()), Convert.ToInt32(response.Item.PreAuthorizationAvailableQuantity));                                                           
                 }
                 else if (response.ErrorList != null && response.ErrorList.Any())
-                {
-                    throw new ArgumentException("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault());
+                {                    
+                    EnviarCorreoError("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault(), "Obtener Estatus NotaVale y el uso de la NotaVale de Ticket Car");
                 }
             }
             catch (Exception ex)
@@ -229,10 +207,11 @@ namespace mlDieselWS
             #endregion
         }
 
-        private Tuple<bool,decimal> ObtenerListadoTransacciones(DateTime Star, DateTime End, string CardNumber, int Identificador)
+        private Tuple<bool,decimal> ObtenerListadoTransacciones(DateTime Star, DateTime End, string CardNumber, int IdentificadorTicket)
         {
             decimal LitrosCargados = 0;
             bool Resultado = false;
+
             #region ObtenerListadoTransacciones
             try
             {
@@ -260,16 +239,18 @@ namespace mlDieselWS
                     {
                         foreach (var item in response.List)
                         {
-                            if (item.CardRequisition.PreAuhorizationIdentification == Identificador)
-                                LitrosCargados += item.Detail.Merchandise.Quantity;                                                        
+                            if (item.CardRequisition.PreAuhorizationIdentification == IdentificadorTicket && item.Status == "APROBADA")
+                                LitrosCargados += item.Detail.Merchandise.Quantity;
+                            else if (item.CardRequisition.PreAuhorizationIdentification == IdentificadorTicket && item.Status == "PENDIENTE")
+                                LitrosCargados += item.Detail.Merchandise.Quantity;
                         }                        
-                        
+                                                
                         Resultado = true;
                     }
                 }
                 else if (response.ErrorList != null && response.ErrorList.Any())
                 {
-                    throw new ArgumentException("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault());
+                    EnviarCorreoError("Error: " + response.ErrorList.Select(s => s.Message).FirstOrDefault() + " Codigo: " + response.ErrorList.Select(s => s.Code).FirstOrDefault(), "Obtener Listados de Transacciones de Ticket Car");
                 }
 
             }
@@ -280,11 +261,11 @@ namespace mlDieselWS
 
             return new Tuple<bool, decimal>(Resultado, LitrosCargados); 
             #endregion
-        }
+        }        
 
-        public DateTime GetStarDate()
+        public DateTime GetStarDate(string NotaEstatus)
         {
-            int Estatus = Convert.ToInt32(AuthorizationStatus.AUTORIZACIONES_VALIDAS);
+            int Estatus = Convert.ToInt32(NotaEstatus);
             DateTime? StarDate = db.LitrosCargados.Where(w => w.Estatus == Estatus && w.OrdenIdentificadorTicket != null).OrderBy(o => o.FechaRegistro).Select(s => s.FechaRegistro).FirstOrDefault();
 
             if (StarDate != null)
@@ -294,6 +275,21 @@ namespace mlDieselWS
             }
             else
                 return DateTime.Now;
+        }
+
+        private void EnviarCorreoError(string Error, string TipoAutorizacion)
+        {
+            Mail email = new Mail();
+
+            string Subject = "Alerta Error Servicio Combustible";
+            string destinatario = ConfigurationManager.AppSettings["EmailDestino"];
+
+            string msj = "<h2>Alerta se detecto un error en el Servicio de Combustibles</h2>"
+                       + "<p>En el proceso: " + TipoAutorizacion + "</p>"
+                       + "<p>Error: " + Error + "</p>"
+                       + "<p>Fecha: " + DateTime.Now.ToString() + "</p>";
+
+            bool envio = email.SendMail(destinatario, Subject, msj);
         }
 
     }

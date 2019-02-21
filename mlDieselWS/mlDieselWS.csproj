@@ -145,6 +145,7 @@
     <Compile Include="EnergexAuthorizationList.cs" />
     <Compile Include="EnergexPartialAuthorizationList.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Mail.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

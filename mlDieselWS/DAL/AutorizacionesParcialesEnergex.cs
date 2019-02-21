@@ -27,5 +27,6 @@ namespace mlDieselWS.DAL
         public string ProductUnitPrice { get; set; }
         public string AuthNum { get; set; }
         public string orden { get; set; }
+        public string Estatus { get; set; }
     }
 }

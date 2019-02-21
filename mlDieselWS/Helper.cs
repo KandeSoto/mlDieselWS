@@ -28,7 +28,8 @@ namespace mlDieselWS
         public const string DEVICE = "000001";
         public const int TIME = 60000;
         public const string COMMENT = "Se realizo autorizacion de combustible desde el servicio con el viaje: ";
-        public const int ExpirationDays = 3;        
+        public const int ExpirationDays = 3;
+        public const decimal LITROMINIMO = 1;
     }
 
     public partial class ConfigurationTicketCar
@@ -55,13 +56,10 @@ namespace mlDieselWS
     }
 
     public partial class StatusProcess
-    {
-        public const int Error = 0;
-        public const int EnvioAutorizacion = 1;
-        public const int EnvioTotal = 2;
-        public const int SoloEjecutoProceso = 3;
-        public const int EnvioAutorizacionErrorCancelar = 5;
-        public const int EnvioTicketCar = 6;
+    {             
+        public const int INICIOPROCESO = 1;
+        public const int EJECUTOPROCESO = 2;
+        public const int ERROR = 3;
     }
 
     public partial class NotaValeEstatus

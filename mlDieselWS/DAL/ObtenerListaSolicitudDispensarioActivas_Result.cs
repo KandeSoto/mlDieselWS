@@ -13,7 +13,6 @@ namespace mlDieselWS.DAL
     
     public partial class ObtenerListaSolicitudDispensarioActivas_Result
     {
-        public Nullable<System.DateTime> FechaRegistro { get; set; }
         public int DepositosDieselId { get; set; }
         public System.DateTime fechaDepositoUTC { get; set; }
         public Nullable<double> litrosSolicitados { get; set; }
